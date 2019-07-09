@@ -62,7 +62,7 @@ namespace Conversion
                 //TODO: log this
             }
 
-            //TODO: run filters (to remove duplicates and unnecessary conversions)
+            //TODO: run filters (to remove duplicates (even if different measurements within same family and unnecessary conversions)
 
             foreach (var pair in successful)
             {

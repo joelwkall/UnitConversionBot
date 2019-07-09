@@ -56,6 +56,8 @@ namespace Conversion.Model
             new Unit("\"", MatchOptions.AllowNone, 1.0/12)
             );
 
+        //TODO: add yards
+
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
             "kg",
@@ -81,7 +83,7 @@ namespace Conversion.Model
             new Unit("imperial ton", "imperial tons", 2240)
         );
 
-        //TODO: add troy pounds and ounces
+        //TODO: add troy pounds and ounces, and stones
 
         public static UnitFamily ImperialVolumes { get; private set; } = new UnitFamily(
             new Unit("imperial gallon", "imperial gallons"),
