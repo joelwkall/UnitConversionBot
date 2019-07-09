@@ -44,7 +44,7 @@ namespace Conversion
                     var converted = converter.Convert(pair.Value);
 
                     if(converted != null)
-                        foundMeasurements[pair.Key] = converter.Convert(pair.Value);
+                        foundMeasurements[pair.Key] = converted;
                 }
             }
 

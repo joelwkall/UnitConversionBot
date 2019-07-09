@@ -230,9 +230,9 @@ namespace Conversion.Model
 
     public class Measurement
     {
-        public Unit Unit;
-        public double Amount;
-        
+        public Unit Unit { get; private set; }
+        public double Amount { get; private set; }
+
         public Measurement(Unit unit, double amount)
         {
             Unit = unit;
