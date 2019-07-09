@@ -80,11 +80,12 @@ namespace Tests.Conversion
                  "The vent opening will be 3in in depth and 10in wide.", 4)]
         [DataRow("5 foot wingspan through an 8 inch gap.", 2)]
         [DataRow("The smallest subspecies of the reindeer. Males average 90 kg in weight, females 70 kg", 2)]
+        [DataRow("It also works with volumes such as 3 gallons, 5 liters, and 5 fl oz.", 3)]
         public void ConvertMultiple(string str, int expected)
         {
             var results = _analyzer.FindConversions(str);
 
-            Assert.AreEqual(expected, results.Count());
+            Assert.AreEqual(expected, results.Count(), $"Results were: {string.Join(',',results)}");
         }
 
         [TestMethod]

@@ -10,7 +10,10 @@ namespace Conversion.Converters
         {
             (UnitFamily.Mph, 1.609344, UnitFamily.Kmph),
             (UnitFamily.Feet, 0.3048, UnitFamily.Meters),
-            (UnitFamily.Pounds, 0.45359237, UnitFamily.Kilograms)
+            (UnitFamily.Pounds, 0.45359237, UnitFamily.Kilograms),
+            (UnitFamily.USVolumes, 3.78541178, UnitFamily.Liters),
+            (UnitFamily.ImperialVolumes, 4.54609188, UnitFamily.Liters),
+            (UnitFamily.USVolumes, 0.83267384, UnitFamily.ImperialVolumes),
         };
 
         public override Measurement Convert(Measurement m)

@@ -81,6 +81,49 @@ namespace Conversion.Model
             new Unit("imperial ton", "imperial tons", 2240)
         );
 
+        public static UnitFamily ImperialVolumes { get; private set; } = new UnitFamily(
+            new Unit("imperial gallon", "imperial gallons"),
+            "imperial gal",
+
+            new Unit("imperial quart", "imperial quarts", 0.25),
+            new Unit("imperial qt", 0.25),
+            new Unit("imperial pint", "imperial pints", 0.125),
+            new Unit("imperial pt", 0.125),
+            new Unit("imperial fluid ounce", "imperial fluid ounces", 0.00625),
+            new Unit("imperial fl oz", "imperial fl oz", 0.00625)
+        );
+
+        public static UnitFamily USVolumes { get; private set; } = new UnitFamily(
+            new Unit("gallon", "gallons"),
+            "gal",
+
+            new Unit("quart", "quarts", 0.25),
+            new Unit("qt", 0.25), 
+            new Unit("pint", "pints", 0.125),
+            new Unit("pt", 0.125),
+            new Unit("fluid ounce", "fluid ounces", 0.0078125),
+            new Unit("fl oz", 0.0078125)
+        );
+
+        public static UnitFamily Liters { get; private set; } = new UnitFamily(
+            new Unit("liter", "liters"),
+            new Unit("litre", "litres"),
+            "l",
+
+            new Unit("deciliter", "deciliters", 0.1),
+            new Unit("decilitre", "decilitres", 0.1),
+            new Unit("dl", 0.1),
+
+            new Unit("centiliter", "centiliters", 0.01),
+            new Unit("centilitre", "centilitres", 0.01),
+            new Unit("cl", 0.01),
+
+            new Unit("milliliter", "milliliters", 0.001),
+            new Unit("millilitre", "millilitres", 0.001),
+            new Unit("ml", 0.001)
+        );
+
+        //TODO: it's hacky that we need to state these here
         public static List<UnitFamily> AllFamilies => new List<UnitFamily>
         {
             Mph,
@@ -88,14 +131,22 @@ namespace Conversion.Model
             Meters,
             Feet,
             Kilograms,
-            Pounds
+            Pounds,
+            ImperialVolumes, //We need this to be first because USVolumes will also catch it
+            USVolumes,
+            Liters
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);
 
         public Unit GetUnit(string unit)
         {
-            return Units.First(e => e.Singular == unit || e.Plural == unit);
+            var u = Units.FirstOrDefault(e => e.Singular == unit || e.Plural == unit);
+
+            if (u != null)
+                return u;
+
+            throw new Exception($"Could not find unit '{unit}' in the '{this.Units.First().Singular}' family.");
         }
 
         static UnitFamily()

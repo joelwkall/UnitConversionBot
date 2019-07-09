@@ -6,27 +6,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests.Conversion.Converters
 {
     [TestClass]
-    public class ImperialMetricConverterTests
+    public class ReadabilityConverterTests
     {
         [TestMethod]
         public void Tests()
         {
             var measurements = new[]
             {
-                (new Measurement(UnitFamily.Mph.GetUnit("mph"), 10), new Measurement(UnitFamily.Kmph.GetUnit("kilometers per hour"), 16.09344)),
-                (new Measurement(UnitFamily.Kmph.GetUnit("km/h"), 10), new Measurement(UnitFamily.Mph.GetUnit("miles per hour"), 6.21371192237334)),
-
-                (new Measurement(UnitFamily.Feet.GetUnit("feet"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3.048)),
-                (new Measurement(UnitFamily.Feet.GetUnit("inches"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.254)),
-                (new Measurement(UnitFamily.Meters.GetUnit("meters"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 32.8083989501312)),
-                (new Measurement(UnitFamily.Meters.GetUnit("cm"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.328083989501312)),
-                (new Measurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.0328083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.03), new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 3)),
+                (new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 300), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 3500), new Measurement(UnitFamily.Meters.GetUnit("kilometer"), 3.5)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.25), new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 25)),
+                //TODO: test other units
             };
 
-            //TODO: this is duplicate code from ImperialMetricConverterTests
             foreach (var (input, expectedResult) in measurements)
             {
-                var result = new ImperialMetricConverter().Convert(input);
+                var result = new ReadabilityConverter().Convert(input);
 
                 if (expectedResult != null)
                 {
