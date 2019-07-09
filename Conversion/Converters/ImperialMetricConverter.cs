@@ -6,29 +6,29 @@ namespace Conversion.Converters
 {
     public class ImperialMetricConverter : BaseConverter
     {
-        private static List<(Unit, double, Unit)> Conversions = new List<(Unit, double, Unit)>()
+        private static List<(UnitFamily, double, UnitFamily)> Conversions = new List<(UnitFamily, double, UnitFamily)>()
         {
-            (Unit.Mph, 1.609344, Unit.Kmph),
-            (Unit.Feet, 0.3048, Unit.Meters),
-            (Unit.Pounds, 0.45359237, Unit.Kilograms)
+            (UnitFamily.Mph, 1.609344, UnitFamily.Kmph),
+            (UnitFamily.Feet, 0.3048, UnitFamily.Meters),
+            (UnitFamily.Pounds, 0.45359237, UnitFamily.Kilograms)
         };
 
         public override Measurement Convert(Measurement m)
         {
             foreach (var (from, ratio, to) in Conversions)
             {
-                if (m.UnitExpression.Unit == from)
+                if (m.Unit.UnitFamily == from)
                 {
                     return new Measurement(
-                        to.Expressions.First(e => e.Ratio == 1.0),
-                        m.Amount * ratio * m.UnitExpression.Ratio
+                        to.Units.First(e => e.Ratio == 1.0),
+                        m.Amount * ratio * m.Unit.Ratio
                     );
                 }
-                else if (m.UnitExpression.Unit == to)
+                else if (m.Unit.UnitFamily == to)
                 {
                     return new Measurement(
-                        from.Expressions.First(e => e.Ratio == 1.0),
-                        m.Amount * (1/ratio) * m.UnitExpression.Ratio
+                        from.Units.First(e => e.Ratio == 1.0),
+                        m.Amount * (1/ratio) * m.Unit.Ratio
                     );
                 }
             }

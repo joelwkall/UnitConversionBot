@@ -1,5 +1,6 @@
 ﻿namespace Imgur
 {
+    //TODO: override the fetching so that it doesnt need a user account
     public class LurkerImgurConnection : LiveImgurConnection
     {
         public LurkerImgurConnection(string imgurClientId, string imgurClientSecret, string refreshToken): base(imgurClientId, imgurClientSecret, refreshToken)

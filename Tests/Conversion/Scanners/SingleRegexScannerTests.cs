@@ -41,7 +41,7 @@ namespace Tests.Conversion.Scanners
                         var actual = results.FirstOrDefault(f =>
                         {
                             return f.Amount == expected.Item1 &&
-                                   f.UnitExpression.Singular == expected.Item2 &&
+                                   f.Unit.Singular == expected.Item2 &&
                                    f.SignificantDigits == expected.Item3;
                         });
 

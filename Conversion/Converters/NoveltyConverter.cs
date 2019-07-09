@@ -17,19 +17,18 @@ namespace Conversion.Converters
         public override Measurement Convert(Measurement m)
         {
             //TODO: also return in inches when possible
-            if (m.UnitExpression.Singular == "banana")
+            if (m.Unit.Singular == "banana")
             {
                 return new Measurement(
-                    Unit.Meters.GetExpression("centimeters"),
                     18
                 );
             }
-            else if (m.UnitExpression.Singular == "doggo" || m.UnitExpression.Singular == "puppy" || m.UnitExpression.Singular == "pupper")
+            else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
             {
                 //dont convert this every time
                 if (_random.NextDouble() < _doggoThreshHold)
                     return new Measurement(
-                        new UnitExpression("goodness", "goodness"), 
+                        new Unit("goodness", "goodness"), 
                         double.PositiveInfinity
                     );
             }

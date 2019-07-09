@@ -13,10 +13,10 @@ namespace Tests.Conversion.Converters
         {
             var measurements = new[]
             {
-                (new Measurement(Unit.Meters.GetExpression("meter"), 0.03), new Measurement(Unit.Meters.GetExpression("centimeter"), 3)),
-                (new Measurement(Unit.Meters.GetExpression("centimeter"), 300), new Measurement(Unit.Meters.GetExpression("meter"), 3)),
-                (new Measurement(Unit.Meters.GetExpression("meter"), 3500), new Measurement(Unit.Meters.GetExpression("kilometer"), 3.5)),
-                (new Measurement(Unit.Meters.GetExpression("meter"), 0.25), new Measurement(Unit.Meters.GetExpression("centimeter"), 25)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.03), new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 3)),
+                (new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 300), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 3500), new Measurement(UnitFamily.Meters.GetUnit("kilometer"), 3.5)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.25), new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 25)),
 
                 //TODO: test other units
             };
@@ -30,7 +30,7 @@ namespace Tests.Conversion.Converters
                     Assert.IsNotNull(result, $"{input} was not converted correctly. Result was null.");
                     
                     Assert.AreEqual(expectedResult.Amount, result.Amount, 0.00000001, $"{input} was not converted correctly regarding Amount.");
-                    Assert.AreEqual(expectedResult.UnitExpression.Singular, result.UnitExpression.Singular, $"{input} was not converted correctly regarding UnitExpression.");
+                    Assert.AreEqual(expectedResult.Unit.Singular, result.Unit.Singular, $"{input} was not converted correctly regarding Unit.");
                 }
                 else
                 {

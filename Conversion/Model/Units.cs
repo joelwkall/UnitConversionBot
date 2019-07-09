@@ -14,74 +14,74 @@ namespace Conversion.Model
         AllowAll = 3
     }
 
-    public class Unit
+    public class UnitFamily
     {
-        public static Unit Mph { get; private set; } = new Unit(
-            new UnitExpression("mile per hour", "miles per hour"), 
+        public static UnitFamily Mph { get; private set; } = new UnitFamily(
+            new Unit("mile per hour", "miles per hour"), 
             "mph");
 
-        public static Unit Kmph { get; private set; } = new Unit(
-            new UnitExpression("kilometer per hour", "kilometers per hour"), 
+        public static UnitFamily Kmph { get; private set; } = new UnitFamily(
+            new Unit("kilometer per hour", "kilometers per hour"), 
             "km/h", 
             "kph", 
             "kmph");
 
         //TODO: add meters per second
 
-        public static Unit Meters { get; private set; } = new Unit( 
-            new UnitExpression("meter", "meters"),
-            new UnitExpression("metre", "metres"), 
+        public static UnitFamily Meters { get; private set; } = new UnitFamily( 
+            new Unit("meter", "meters"),
+            new Unit("metre", "metres"), 
             "m",
 
-            new UnitExpression("kilometer", "kilometers", 1000), 
-            new UnitExpression("kilometre", "kilometres", 1000),
-            new UnitExpression("km", 1000),
+            new Unit("kilometer", "kilometers", 1000), 
+            new Unit("kilometre", "kilometres", 1000),
+            new Unit("km", 1000),
 
-            new UnitExpression("centimeter", "centimeters", 0.01), 
-            new UnitExpression("centimetre", "centimetres", 0.01), 
-            new UnitExpression("cm", 0.01),
+            new Unit("centimeter", "centimeters", 0.01), 
+            new Unit("centimetre", "centimetres", 0.01), 
+            new Unit("cm", 0.01),
 
-            new UnitExpression("millimeter", "millimeters", 0.001),
-            new UnitExpression("millimetre", "millimetres", 0.001),
-            new UnitExpression("mm", 0.001)
+            new Unit("millimeter", "millimeters", 0.001),
+            new Unit("millimetre", "millimetres", 0.001),
+            new Unit("mm", 0.001)
             );
 
-        public static Unit Feet { get; private set; } = new Unit( 
-            new UnitExpression("foot", "feet"), 
-            new UnitExpression("'", MatchOptions.AllowNone), //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
+        public static UnitFamily Feet { get; private set; } = new UnitFamily( 
+            new Unit("foot", "feet"), 
+            new Unit("'", MatchOptions.AllowNone), //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
             "ft",
 
-            new UnitExpression("inch", "inches", 1.0/12),
-            new UnitExpression("in", MatchOptions.AllowNone, 1.0/12), 
-            new UnitExpression("\"", MatchOptions.AllowNone, 1.0/12)
+            new Unit("inch", "inches", 1.0/12),
+            new Unit("in", MatchOptions.AllowNone, 1.0/12), 
+            new Unit("\"", MatchOptions.AllowNone, 1.0/12)
             );
 
-        public static Unit Kilograms { get; private set; } = new Unit(
-            new UnitExpression("kilogram", "kilograms"),
+        public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
+            new Unit("kilogram", "kilograms"),
             "kg",
 
-            new UnitExpression("gram", "grams", 0.001),
-            new UnitExpression("g", 0.001),
-            new UnitExpression("milligram", "milligrams", 0.000001),
-            new UnitExpression("mg", 0.000001),
-            new UnitExpression("microgram", "micrograms", 0.000000001),
-            new UnitExpression("µg", 0.000000001),
+            new Unit("gram", "grams", 0.001),
+            new Unit("g", 0.001),
+            new Unit("milligram", "milligrams", 0.000001),
+            new Unit("mg", 0.000001),
+            new Unit("microgram", "micrograms", 0.000000001),
+            new Unit("µg", 0.000000001),
 
-            new UnitExpression("ton", "tons", 1000),
-            new UnitExpression("tonne", "tonnes", 1000)
+            new Unit("ton", "tons", 1000),
+            new Unit("tonne", "tonnes", 1000)
         );
 
-        public static Unit Pounds { get; private set; } = new Unit(
-            new UnitExpression("pound", "pounds"),
-            new UnitExpression("lb", "lbs"),
+        public static UnitFamily Pounds { get; private set; } = new UnitFamily(
+            new Unit("pound", "pounds"),
+            new Unit("lb", "lbs"),
 
-            new UnitExpression("ounce", "ounces", 1.0 / 16),
-            new UnitExpression("oz", 1.0 / 16),
+            new Unit("ounce", "ounces", 1.0 / 16),
+            new Unit("oz", 1.0 / 16),
 
-            new UnitExpression("imperial ton", "imperial tons", 2240)
+            new Unit("imperial ton", "imperial tons", 2240)
         );
 
-        public static List<Unit> AllUnits => new List<Unit>
+        public static List<UnitFamily> AllFamilies => new List<UnitFamily>
         {
             Mph,
             Kmph,
@@ -91,42 +91,43 @@ namespace Conversion.Model
             Pounds
         };
 
-        public static IEnumerable<UnitExpression> AllExpressions => AllUnits.SelectMany(u => u.Expressions);
+        public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);
 
-        public UnitExpression GetExpression(string expression)
+        public Unit GetUnit(string unit)
         {
-            return Expressions.First(e => e.Singular == expression || e.Plural == expression);
+            return Units.First(e => e.Singular == unit || e.Plural == unit);
         }
 
-        static Unit()
+        static UnitFamily()
         {
-            //make all expressions aware of their parent
-            foreach (var unit in AllUnits)
+            //TODO: This is hacky
+            //make all units aware of their family
+            foreach (var unit in AllFamilies)
             {
-                foreach (var expr in unit.Expressions)
+                foreach (var u in unit.Units)
                 {
-                    expr.Unit = unit;
+                    u.UnitFamily = unit;
                 }
             }
         }
         
-        public IEnumerable<UnitExpression> Expressions { get; private set; }
+        public IEnumerable<Unit> Units { get; private set; }
 
-        public Unit(params UnitExpression[] alternativeExpressions)
+        public UnitFamily(params Unit[] units)
         {
-            Expressions = new List<UnitExpression>(alternativeExpressions);
+            Units = new List<Unit>(units);
         }
     }
     
-    public class UnitExpression
+    public class Unit
     {
         public string Singular { get; private set; }
         public string Plural { get; private set; }
         public MatchOptions MatchOptions { get; private set; }
         public double Ratio { get; private set; } = 1;
-        public Unit Unit { get; set; }
+        public UnitFamily UnitFamily { get; set; }
 
-        public UnitExpression(string singular, string plural, MatchOptions matchOptions, double ratio = 1.0)
+        public Unit(string singular, string plural, MatchOptions matchOptions, double ratio = 1.0)
         {
             Singular = singular;
             Plural = plural;
@@ -134,56 +135,56 @@ namespace Conversion.Model
             Ratio = ratio;
         }
 
-        public UnitExpression(string singular, string plural, double ratio = 1.0) : this(singular, plural, MatchOptions.AllowAll, ratio)
+        public Unit(string singular, string plural, double ratio = 1.0) : this(singular, plural, MatchOptions.AllowAll, ratio)
         {
         }
 
-        public UnitExpression(string singular, MatchOptions matchOptions, double ratio = 1.0) : this(singular, singular, matchOptions, ratio)
+        public Unit(string singular, MatchOptions matchOptions, double ratio = 1.0) : this(singular, singular, matchOptions, ratio)
         { }
 
-        public UnitExpression(string singular, double ratio = 1.0) : this(singular, singular, MatchOptions.AllowAll, ratio)
+        public Unit(string singular, double ratio = 1.0) : this(singular, singular, MatchOptions.AllowAll, ratio)
         { }
 
-        public static implicit operator UnitExpression(string singular)
+        public static implicit operator Unit(string singular)
         {
-            return new UnitExpression(singular, singular);
+            return new Unit(singular, singular);
         }
 
-        public static bool operator ==(UnitExpression expression1, UnitExpression expression2)
+        public static bool operator ==(Unit u1, Unit u2)
         {
-            return EqualityComparer<UnitExpression>.Default.Equals(expression1, expression2);
+            return EqualityComparer<Unit>.Default.Equals(u1, u2);
         }
 
-        public static bool operator !=(UnitExpression expression1, UnitExpression expression2)
+        public static bool operator !=(Unit u1, Unit u2)
         {
-            return !(expression1 == expression2);
+            return !(u1 == u2);
         }
 
         public override bool Equals(object obj)
         {
-            var expression = obj as UnitExpression;
-            return expression != null &&
-                   Singular == expression.Singular &&
-                   Plural == expression.Plural &&
-                   MatchOptions == expression.MatchOptions &&
-                   Ratio == expression.Ratio &&
-                   EqualityComparer<Unit>.Default.Equals(Unit, expression.Unit);
+            var u = obj as Unit;
+            return u != null &&
+                   Singular == u.Singular &&
+                   Plural == u.Plural &&
+                   MatchOptions == u.MatchOptions &&
+                   Ratio == u.Ratio &&
+                   EqualityComparer<UnitFamily>.Default.Equals(UnitFamily, u.UnitFamily);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Singular, Plural, MatchOptions, Ratio, Unit);
+            return HashCode.Combine(Singular, Plural, MatchOptions, Ratio, UnitFamily);
         }
     }
 
     public class Measurement
     {
-        public UnitExpression UnitExpression;
+        public Unit Unit;
         public double Amount;
         
-        public Measurement(UnitExpression unitExpression, double amount)
+        public Measurement(Unit unit, double amount)
         {
-            UnitExpression = unitExpression;
+            Unit = unit;
             Amount = amount;
         }
 
@@ -201,7 +202,7 @@ namespace Conversion.Model
                 strAmount = roundedAmount.ToString("#.############################", CultureInfo.InvariantCulture);
             }
 
-            return strAmount + " " + (Amount == 1 ? UnitExpression.Singular : UnitExpression.Plural);
+            return strAmount + " " + (Amount == 1 ? Unit.Singular : Unit.Plural);
         }
     }
 
@@ -210,7 +211,7 @@ namespace Conversion.Model
         public string DetectedString;
         public int SignificantDigits;
 
-        public DetectedMeasurement(UnitExpression unitExpression, double amount, int significantDigits, string detectedString):base(unitExpression, amount)
+        public DetectedMeasurement(Unit unit, double amount, int significantDigits, string detectedString):base(unit, amount)
         {
             DetectedString = detectedString;
             SignificantDigits = significantDigits;

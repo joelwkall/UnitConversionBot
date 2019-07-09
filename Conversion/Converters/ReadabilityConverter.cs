@@ -5,7 +5,7 @@ using System.Linq;
 namespace Conversion.Converters
 {
     /// <summary>
-    /// Converts an expression to another expression of the same unit, if it results in a shorter number.
+    /// Converts a unit to another unit of the same family, if it results in a shorter number.
     /// </summary>
     public class ReadabilityConverter : BaseConverter
     {
@@ -16,30 +16,30 @@ namespace Conversion.Converters
                 return null;
 
             //ignore custom wacky units
-            if (m.UnitExpression.Unit == null)
+            if (m.Unit.UnitFamily == null)
                 return null;
 
             //dont translate stuff that was not converted
             if (m is DetectedMeasurement)
                 return null;
 
-            var baseAmount = m.Amount * m.UnitExpression.Ratio;
+            var baseAmount = m.Amount * m.Unit.Ratio;
 
-            var shortest = (expression: m.UnitExpression, amount: m.Amount);
+            var shortest = (unit: m.Unit, amount: m.Amount);
 
-            foreach (var expr in m.UnitExpression.Unit.Expressions)
+            foreach (var u in m.Unit.UnitFamily.Units)
             {
-                var convertedAmount = baseAmount / expr.Ratio;
+                var convertedAmount = baseAmount / u.Ratio;
 
                 if (NumberOfZeroes(convertedAmount) < NumberOfZeroes(shortest.amount))
-                    shortest = (expr, convertedAmount);
+                    shortest = (unit: u, convertedAmount);
             }
 
             //dont convert if not changed
-            if (shortest.expression == m.UnitExpression)
+            if (shortest.unit == m.Unit)
                 return null;
 
-            return new Measurement(shortest.expression, shortest.amount);
+            return new Measurement(shortest.unit, shortest.amount);
         }
 
         private int NumberOfZeroes(double value)

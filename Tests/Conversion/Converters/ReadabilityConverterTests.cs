@@ -13,16 +13,17 @@ namespace Tests.Conversion.Converters
         {
             var measurements = new[]
             {
-                (new Measurement(Unit.Mph.GetExpression("mph"), 10), new Measurement(Unit.Kmph.GetExpression("kilometers per hour"), 16.09344)),
-                (new Measurement(Unit.Kmph.GetExpression("km/h"), 10), new Measurement(Unit.Mph.GetExpression("miles per hour"), 6.21371192237334)),
+                (new Measurement(UnitFamily.Mph.GetUnit("mph"), 10), new Measurement(UnitFamily.Kmph.GetUnit("kilometers per hour"), 16.09344)),
+                (new Measurement(UnitFamily.Kmph.GetUnit("km/h"), 10), new Measurement(UnitFamily.Mph.GetUnit("miles per hour"), 6.21371192237334)),
 
-                (new Measurement(Unit.Feet.GetExpression("feet"), 10), new Measurement(Unit.Meters.GetExpression("meter"), 3.048)),
-                (new Measurement(Unit.Feet.GetExpression("inches"), 10), new Measurement(Unit.Meters.GetExpression("meter"), 0.254)),
-                (new Measurement(Unit.Meters.GetExpression("meters"), 10), new Measurement(Unit.Feet.GetExpression("foot"), 32.8083989501312)),
-                (new Measurement(Unit.Meters.GetExpression("cm"), 10), new Measurement(Unit.Feet.GetExpression("foot"), 0.328083989501312)),
-                (new Measurement(Unit.Meters.GetExpression("millimetres"), 10), new Measurement(Unit.Feet.GetExpression("foot"), 0.0328083989501312)),
+                (new Measurement(UnitFamily.Feet.GetUnit("feet"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3.048)),
+                (new Measurement(UnitFamily.Feet.GetUnit("inches"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.254)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meters"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 32.8083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("cm"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.328083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.0328083989501312)),
             };
 
+            //TODO: this is duplicate code from ImperialMetricConverterTests
             foreach (var (input, expectedResult) in measurements)
             {
                 var result = new ImperialMetricConverter().Convert(input);
@@ -32,7 +33,7 @@ namespace Tests.Conversion.Converters
                     Assert.IsNotNull(result, $"{input} was not converted correctly. Result was null.");
                     
                     Assert.AreEqual(expectedResult.Amount, result.Amount, 0.00000001, $"{input} was not converted correctly regarding Amount.");
-                    Assert.AreEqual(expectedResult.UnitExpression.Singular, result.UnitExpression.Singular, $"{input} was not converted correctly regarding UnitExpression.");
+                    Assert.AreEqual(expectedResult.Unit.Singular, result.Unit.Singular, $"{input} was not converted correctly regarding Unit.");
                 }
                 else
                 {

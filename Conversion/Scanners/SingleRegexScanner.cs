@@ -16,9 +16,9 @@ namespace Conversion.Scanners
         {
             var found = new List<DetectedMeasurement>();
 
-            foreach (var expr in Unit.AllExpressions)
+            foreach (var u in UnitFamily.AllUnits)
             {
-                var matchOptions = expr.MatchOptions;
+                var matchOptions = u.MatchOptions;
 
                 //construct the pattern to inject based on options
                 var pattern = "(?:";
@@ -26,10 +26,10 @@ namespace Conversion.Scanners
                 if (matchOptions.HasFlag(MatchOptions.AllowSpace))
                     pattern = "\\s?" + pattern;
 
-                pattern += expr.Singular;
+                pattern += u.Singular;
 
                 if (matchOptions.HasFlag(MatchOptions.AllowPlural))
-                    pattern += "|" + expr.Plural;
+                    pattern += "|" + u.Plural;
 
                 pattern += ")";
 
@@ -46,13 +46,14 @@ namespace Conversion.Scanners
                         var foundStr = regex.Groups[1].Captures[0].Value;
                         var amountStr = regex.Groups[2].Captures[0].Value;
 
+                        //TODO: smarter number parser that doesn't parse "3,5" as "35"
                         if (double.TryParse(amountStr,
                             NumberStyles.Number | NumberStyles.AllowThousands, CultureInfo.InvariantCulture,
                             out var amount))
                         {
                             var digits = Utils.DetectSignificantDigits(amountStr);
 
-                            found.Add(new DetectedMeasurement(expr, amount, digits, foundStr));
+                            found.Add(new DetectedMeasurement(u, amount, digits, foundStr));
                         }
                         else
                         {

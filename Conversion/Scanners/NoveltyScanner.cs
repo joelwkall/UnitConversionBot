@@ -18,7 +18,7 @@ namespace Conversion.Scanners
 
                 if (pos != -1)
                 {
-                    measurements.Add(new DetectedMeasurement(new UnitExpression(phrase, phrase + "s"), 1, 1, "1 " + phrase));
+                    measurements.Add(new DetectedMeasurement(new Unit(phrase, phrase + "s"), 1, 1, "1 " + phrase));
                     str = str.Replace(phrase, "", StringComparison.InvariantCultureIgnoreCase);
                 }
 
