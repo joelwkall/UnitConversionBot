@@ -131,8 +131,11 @@ namespace Tests.Conversion
         [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ 249 grams")]
 
         //novelty stuff
-        [DataRow("I added a banana for scale just in case", "1 banana ≈ 18 centimeters")]
+        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters")]
         [DataRow("There is a new puppy in town", "1 puppy ≈ Infinity goodness")]
+
+        //converter interactions
+        [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet")]
         public void ConvertSingle(string input, string expected)
         {
             var results = _analyzer.FindConversions(input);
@@ -146,6 +149,21 @@ namespace Tests.Conversion
             {
                 Assert.AreEqual(0, results.Count(), input + " was not supposed to match.");
             }
+        }
+
+        [TestMethod]
+        public void NoDuplicates()
+        {
+            var results = _analyzer.FindConversions("I added a banana for scale just in case", "And banana again.");
+            Assert.AreEqual(1, results.Count());
+        }
+
+        [TestMethod]
+        public void NoUneccessaryConversions()
+        {
+            var results = _analyzer.FindConversions("It varied from 12 ft. to about", "And then another text with no measurements.");
+            Assert.AreEqual(1, results.Count());
+            Assert.AreEqual("12 ft ≈ 3.66 meters", results.First());
         }
     }
 }

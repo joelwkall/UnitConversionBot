@@ -93,7 +93,7 @@ namespace Core
                                 //no duplicates
                                 texts = texts.Distinct().ToList();
 
-                                var results = texts.SelectMany(t => _analyzer.FindConversions(t)).ToList();
+                                var results = _analyzer.FindConversions(texts.ToArray()).ToList();
 
                                 if (results.Count() > 0)
                                 {

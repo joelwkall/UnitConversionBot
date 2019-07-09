@@ -81,6 +81,8 @@ namespace Conversion.Model
             new Unit("imperial ton", "imperial tons", 2240)
         );
 
+        //TODO: add troy pounds and ounces
+
         public static UnitFamily ImperialVolumes { get; private set; } = new UnitFamily(
             new Unit("imperial gallon", "imperial gallons"),
             "imperial gal",
@@ -94,13 +96,17 @@ namespace Conversion.Model
         );
 
         public static UnitFamily USVolumes { get; private set; } = new UnitFamily(
+            new Unit("us gallon", "us gallons"),
             new Unit("gallon", "gallons"),
             "gal",
 
+            new Unit("us quart", "us quarts", 0.25),
             new Unit("quart", "quarts", 0.25),
-            new Unit("qt", 0.25), 
+            new Unit("qt", 0.25),
+            new Unit("us pint", "us pints", 0.125),
             new Unit("pint", "pints", 0.125),
             new Unit("pt", 0.125),
+            new Unit("us fluid ounce", "us fluid ounces", 0.0078125),
             new Unit("fluid ounce", "fluid ounces", 0.0078125),
             new Unit("fl oz", 0.0078125)
         );
@@ -254,6 +260,29 @@ namespace Conversion.Model
             }
 
             return strAmount + " " + (Amount == 1 ? Unit.Singular : Unit.Plural);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var measurement = obj as Measurement;
+            return measurement != null &&
+                   EqualityComparer<Unit>.Default.Equals(Unit, measurement.Unit) &&
+                   Amount == measurement.Amount;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Unit, Amount);
+        }
+
+        public static bool operator ==(Measurement measurement1, Measurement measurement2)
+        {
+            return EqualityComparer<Measurement>.Default.Equals(measurement1, measurement2);
+        }
+
+        public static bool operator !=(Measurement measurement1, Measurement measurement2)
+        {
+            return !(measurement1 == measurement2);
         }
     }
 

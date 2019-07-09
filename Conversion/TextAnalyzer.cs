@@ -17,37 +17,44 @@ namespace Conversion
             _converters = converters;
         }
 
-        public IEnumerable<string> FindConversions(string str)
+        public IEnumerable<string> FindConversions(params string[] strs)
         {
-            if (str == null)
+            if (strs == null || !strs.Any())
                 yield break;
 
             var foundMeasurements = new Dictionary<DetectedMeasurement, Measurement>();
 
-            //detect all measurements
-            foreach (var scanner in _scanners)
+            //ignore empty strings
+            foreach (var str in strs.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
-                var (newStr, measurements) = scanner.FindMeasurements(str);
-                str = newStr; 
+                var currentStr = str;
 
-                foreach (var measurement in measurements)
+                //detect all measurements in all texts
+                foreach (var scanner in _scanners)
                 {
-                    foundMeasurements.Add(measurement,measurement);
+                    var (newStr, measurements) = scanner.FindMeasurements(currentStr);
+                    currentStr = newStr;
+
+                    foreach (var measurement in measurements)
+                    {
+                        if (!foundMeasurements.ContainsKey(measurement))
+                            foundMeasurements.Add(measurement, measurement);
+                    }
                 }
             }
 
             //run them through converters
             foreach (var converter in _converters)
             {
-                foreach (var pair in foundMeasurements.ToDictionary(o=>o.Key, o=>o.Value))
+                foreach (var pair in foundMeasurements.ToDictionary(o => o.Key, o => o.Value))
                 {
                     var converted = converter.Convert(pair.Value);
 
-                    if(converted != null)
+                    if (converted != null)
                         foundMeasurements[pair.Key] = converted;
                 }
             }
-
+            
             var successful = foundMeasurements.Where(o => o.Key != o.Value);
 
             if(successful.Count() < foundMeasurements.Count())
