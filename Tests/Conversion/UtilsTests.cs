@@ -37,5 +37,37 @@ namespace Tests.Conversion
                 Assert.AreEqual(expected, actual, str + " wasnt detected correctly.");
             }
         }
+
+        [TestMethod]
+        public void CountLeadingTrailingZeroes()
+        {
+            var cases = new[]
+            {
+                (1000, 3),
+                (12, 0),
+                (128, 0),
+                (1280, 1),
+                (12800, 2),
+                (128001, 0),
+                (128001000, 3),
+                (12800100035, 0),
+                (128, 0),
+
+                (128.1, 0),
+                (128.101, 0),
+                (1280.10001, 0),
+                (128.10007001, 0),
+                (0.000766001, 4),
+                (0.0, 1),
+                (1.0, 0),
+            };
+
+            foreach (var (d, expected) in cases)
+            {
+                var actual = Utils.CountLeadingTrailingZeroes(d);
+
+                Assert.AreEqual(expected, actual, d + " wasnt counted correctly.");
+            }
+        }
     }
 }

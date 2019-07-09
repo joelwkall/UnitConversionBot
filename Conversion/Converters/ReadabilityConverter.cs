@@ -25,26 +25,29 @@ namespace Conversion.Converters
 
             var baseAmount = m.Amount * m.Unit.Ratio;
 
-            var shortest = (unit: m.Unit, amount: m.Amount);
+            var preferred = (unit: m.Unit, amount: m.Amount, numberOfZeroes: Utils.CountLeadingTrailingZeroes(m.Amount));
 
             foreach (var u in m.Unit.UnitFamily.Units)
             {
                 var convertedAmount = baseAmount / u.Ratio;
 
-                if (NumberOfZeroes(convertedAmount) < NumberOfZeroes(shortest.amount))
-                    shortest = (unit: u, convertedAmount);
+                //if the new number has fewer zeroes
+                //or the same number of zeroes but is a bigger unit
+                //then the new unit is preferred
+                var numberOfZeroesConverted = Utils.CountLeadingTrailingZeroes(convertedAmount);
+
+                if (numberOfZeroesConverted < preferred.numberOfZeroes ||
+                    numberOfZeroesConverted == preferred.numberOfZeroes && u.Ratio > preferred.unit.Ratio)
+                    preferred = (u, convertedAmount, numberOfZeroesConverted);
             }
 
             //dont convert if not changed
-            if (shortest.unit == m.Unit)
+            if (preferred.unit == m.Unit)
                 return null;
 
-            return new Measurement(shortest.unit, shortest.amount);
+            return new Measurement(preferred.unit, preferred.amount);
         }
 
-        private int NumberOfZeroes(double value)
-        {
-            return value.ToString("0.############################", CultureInfo.InvariantCulture).Where(c => c == '0').Count();
-        }
+        
     }
 }
