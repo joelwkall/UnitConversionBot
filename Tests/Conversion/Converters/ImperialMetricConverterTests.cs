@@ -15,11 +15,12 @@ namespace Tests.Conversion.Converters
                 (new Measurement(UnitFamily.Mph.GetUnit("mph"), 10), new Measurement(UnitFamily.Kmph.GetUnit("kilometers per hour"), 16.09344)),
                 (new Measurement(UnitFamily.Kmph.GetUnit("km/h"), 10), new Measurement(UnitFamily.Mph.GetUnit("miles per hour"), 6.21371192237334)),
 
-                (new Measurement(UnitFamily.Feet.GetUnit("feet"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3.048)),
-                (new Measurement(UnitFamily.Feet.GetUnit("inches"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.254)),
-                (new Measurement(UnitFamily.Meters.GetUnit("meters"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 32.8083989501312)),
-                (new Measurement(UnitFamily.Meters.GetUnit("cm"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.328083989501312)),
-                (new Measurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new Measurement(UnitFamily.Feet.GetUnit("foot"), 0.0328083989501312)),
+                (new Measurement(UnitFamily.ImperialDistances.GetUnit("feet"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 3.048)),
+                (new Measurement(UnitFamily.ImperialDistances.GetUnit("inches"), 10), new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.254)),
+                (new Measurement(UnitFamily.Meters.GetUnit("meters"), 10), new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 32.8083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("cm"), 10), new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.328083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.0328083989501312)),
+                (new Measurement(UnitFamily.Meters.GetUnit("kilometers"), 10), new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 32808.3989501312)),
 
                 (new Measurement(UnitFamily.USVolumes.GetUnit("gallon"), 5), new Measurement(UnitFamily.Liters.GetUnit("liter"), 18.9270589)),
                 (new Measurement(UnitFamily.ImperialVolumes.GetUnit("imperial gallon"), 5), new Measurement(UnitFamily.Liters.GetUnit("liter"), 22.7304594)),

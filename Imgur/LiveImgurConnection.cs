@@ -76,6 +76,7 @@ namespace Imgur
             var showMature = false;
             var albumPreviews = true;
 
+            //TODO: usersub rising often times out server side (503 first byte). Could timeout client side much faster to improve speed
             var url = $"https://api.imgur.com/3/gallery/{section}/{sort}/{window}/{page}?showViral={showViral}&mature={showMature}&album_previews={albumPreviews}";
 
             var json = GetJObject(url, AccessToken);

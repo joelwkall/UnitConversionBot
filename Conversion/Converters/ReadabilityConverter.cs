@@ -32,12 +32,12 @@ namespace Conversion.Converters
                 var convertedAmount = baseAmount / u.Ratio;
 
                 //if the new number has fewer zeroes
-                //or the same number of zeroes but is a bigger unit
+                //or the same number of zeroes but a smaller number
                 //then the new unit is preferred
                 var numberOfZeroesConverted = Utils.CountLeadingTrailingZeroes(convertedAmount);
 
                 if (numberOfZeroesConverted < preferred.numberOfZeroes ||
-                    numberOfZeroesConverted == preferred.numberOfZeroes && u.Ratio > preferred.unit.Ratio)
+                    numberOfZeroesConverted == preferred.numberOfZeroes && convertedAmount < preferred.amount)
                     preferred = (u, convertedAmount, numberOfZeroesConverted);
             }
 

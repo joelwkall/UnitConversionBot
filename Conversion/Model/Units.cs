@@ -46,17 +46,20 @@ namespace Conversion.Model
             new Unit("mm", 0.001)
             );
 
-        public static UnitFamily Feet { get; private set; } = new UnitFamily( 
+        public static UnitFamily ImperialDistances { get; private set; } = new UnitFamily( 
             new Unit("foot", "feet"), 
             new Unit("'", MatchOptions.AllowNone), //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
             "ft",
+
+            new Unit("mile", "miles", 5280),
+            new Unit("mi", 5280),
 
             new Unit("inch", "inches", 1.0/12),
             new Unit("in", MatchOptions.AllowNone, 1.0/12), 
             new Unit("\"", MatchOptions.AllowNone, 1.0/12)
             );
 
-        //TODO: add yards
+        //TODO: add yards but never convert TO them
 
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
@@ -137,7 +140,7 @@ namespace Conversion.Model
             Mph,
             Kmph,
             Meters,
-            Feet,
+            ImperialDistances,
             Kilograms,
             Pounds,
             ImperialVolumes, //We need this to be first because USVolumes will also catch it
@@ -262,6 +265,11 @@ namespace Conversion.Model
             }
 
             return strAmount + " " + (Amount == 1 ? Unit.Singular : Unit.Plural);
+        }
+
+        public override string ToString()
+        {
+            return ToString(10);
         }
 
         public override bool Equals(object obj)

@@ -136,6 +136,7 @@ namespace Tests.Conversion
 
         //converter interactions
         [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet")]
+        [DataRow("Do not convert 10 kilometers to feet", "10 kilometers ≈ 6.2 miles")]
         public void ConvertSingle(string input, string expected)
         {
             var results = _analyzer.FindConversions(input);
