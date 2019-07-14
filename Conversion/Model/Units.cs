@@ -48,22 +48,20 @@ namespace Conversion.Model
 
         public static UnitFamily ImperialDistances { get; private set; } = new UnitFamily( 
             new Unit("foot", "feet"), 
-            new Unit("'", MatchOptions.AllowNone), //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
             "ft",
 
             new Unit("mile", "miles", 5280),
             new Unit("mi", 5280),
 
             new Unit("inch", "inches", 1.0/12),
-            new Unit("in", MatchOptions.AllowNone, 1.0/12), 
-            new Unit("\"", MatchOptions.AllowNone, 1.0/12)
+            new Unit("in", MatchOptions.AllowNone, 1.0/12) //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
             );
 
         //TODO: add yards but never convert TO them
 
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
-            "kg",
+            "kg", //TODO: detect "kgs" but dont format numbers that way
 
             new Unit("gram", "grams", 0.001),
             new Unit("g", 0.001),

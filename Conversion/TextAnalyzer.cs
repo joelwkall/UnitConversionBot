@@ -8,6 +8,21 @@ namespace Conversion
 {
     public class TextAnalyzer
     {
+        public static TextAnalyzer Default { get; private set; } = new TextAnalyzer(
+            new BaseScanner[]
+            {
+                new NoveltyScanner(),
+                new FeetAndInchesScanner(),
+                new FeetOrInchesScanner(),
+                new SingleRegexScanner(),
+            },
+            new BaseConverter[]
+            {
+                new ImperialMetricConverter(),
+                new NoveltyConverter(0.1),
+                new ReadabilityConverter(),
+            });
+
         private IEnumerable<BaseScanner> _scanners;
         private IEnumerable<BaseConverter> _converters;
 

@@ -28,18 +28,7 @@ namespace ConsoleRunner
                 : new LurkerImgurConnection(clientId, clientSecret, refreshToken);
 
             var analyzer = new ImgurAnalyzer(
-                new TextAnalyzer(
-                    new BaseScanner[]
-                    {
-                        new NoveltyScanner(),
-                        new SingleRegexScanner(),
-                    },
-                    new BaseConverter[]
-                    {
-                        new ImperialMetricConverter(),
-                        new NoveltyConverter(0.1),
-                        new ReadabilityConverter(),
-                }),
+                TextAnalyzer.Default,
                 client
             );
 

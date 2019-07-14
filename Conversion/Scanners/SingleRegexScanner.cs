@@ -9,8 +9,7 @@ namespace Conversion.Scanners
 {
     public class SingleRegexScanner: BaseScanner
     {
-        private static string _wordSeparators = "[<>.,;:_!#¤%&()=?`@£${}+´¨~*'\"]";
-        private static string _regex = $"(?:\\s|^|{_wordSeparators})(([\\d,\\.]+)PATTERN)(?:\\s|$|{_wordSeparators})";
+        private static string _regex = $"(?:\\s|^|{WordSeparators})(([\\d,\\.]+)PATTERN)(?:\\s|$|{WordSeparators})";
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str)
         {
@@ -45,11 +44,8 @@ namespace Conversion.Scanners
                     {
                         var foundStr = regex.Groups[1].Captures[0].Value;
                         var amountStr = regex.Groups[2].Captures[0].Value;
-
-                        //TODO: smarter number parser that doesn't parse "3,5" as "35"
-                        if (double.TryParse(amountStr,
-                            NumberStyles.Number | NumberStyles.AllowThousands, CultureInfo.InvariantCulture,
-                            out var amount))
+                        
+                        if (Parse(amountStr, out var amount))
                         {
                             var digits = Utils.DetectSignificantDigits(amountStr);
 

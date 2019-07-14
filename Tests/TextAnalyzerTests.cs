@@ -9,20 +9,7 @@ namespace Tests.Conversion
     [TestClass]
     public class TextAnalyzerTests
     {
-        //TODO: make sure this is the same setup as in the live analyzer
-        private TextAnalyzer _analyzer = new TextAnalyzer(
-            new BaseScanner[]
-            {
-                new NoveltyScanner(),
-                new SingleRegexScanner(),
-            },
-            new BaseConverter[]
-            {
-                new ImperialMetricConverter(),
-                new NoveltyConverter(1.0),
-                new ReadabilityConverter(), 
-            });
-
+        private TextAnalyzer _analyzer = TextAnalyzer.Default;
 
         [TestMethod]
         public void BeginningAndEnd()
@@ -117,6 +104,8 @@ namespace Tests.Conversion
         [DataRow("10 in", null)]
         [DataRow("10ins", null)]
 
+        //TODO: copy the above to lbs, since ' and " are special scanners
+
         //line breaks
         [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms")]
         [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms")]
@@ -129,14 +118,23 @@ namespace Tests.Conversion
         [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms")]
         [DataRow("God imgurs at 5gb's.", null)]
         [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ 249 grams")]
+        [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 meters")]
 
         //novelty stuff
         [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters")]
-        [DataRow("There is a new puppy in town", "1 puppy ≈ Infinity goodness")]
+        //TODO: test puppy conversions using a 1.0 threshhold noveltyconverter
 
         //converter interactions
         [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet")]
         [DataRow("Do not convert 10 kilometers to feet", "10 kilometers ≈ 6.2 miles")]
+
+        //quotes
+        [DataRow("A simple check for 12\" should work", "12\" ≈ 30.5 centimeters")]
+        [DataRow("When it is \"quoted as 12\" it \" should also work", "12\" ≈ 30.5 centimeters")]
+        [DataRow("But a \"quote that happens to end with 12\" should not work", null)]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work", "12\" ≈ 30.5 centimeters")]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" after", "12\" ≈ 30.5 centimeters")]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" and /1\" after", "12\" ≈ 30.5 centimeters")]
         public void ConvertSingle(string input, string expected)
         {
             var results = _analyzer.FindConversions(input);
