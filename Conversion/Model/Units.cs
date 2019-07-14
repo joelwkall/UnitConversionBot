@@ -70,7 +70,7 @@ namespace Conversion.Model
             new Unit("microgram", "micrograms", 0.000000001),
             new Unit("µg", 0.000000001),
 
-            new Unit("ton", "tons", 1000),
+            new Unit("metric ton", "metric tons", 1000),
             new Unit("tonne", "tonnes", 1000)
         );
 
@@ -81,7 +81,8 @@ namespace Conversion.Model
             new Unit("ounce", "ounces", 1.0 / 16),
             new Unit("oz", 1.0 / 16),
 
-            new Unit("imperial ton", "imperial tons", 2240)
+            new Unit("short ton", "short tons", 2000),
+            new Unit("long ton", "long tons", 2240)
         );
 
         //TODO: add troy pounds and ounces, and stones
