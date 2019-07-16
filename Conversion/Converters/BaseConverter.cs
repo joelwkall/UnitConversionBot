@@ -7,7 +7,6 @@ namespace Conversion.Converters
 {
     public abstract class BaseConverter
     {
-        //TODO: make this able to return multiple so that for instance stones or bananas can be translated to bouth pounds and kg
-        public abstract Measurement Convert(Measurement m);
+        public abstract IEnumerable<Measurement> Convert(Measurement m);
     }
 }

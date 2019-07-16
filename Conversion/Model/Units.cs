@@ -17,45 +17,46 @@ namespace Conversion.Model
     public class UnitFamily
     {
         public static UnitFamily Mph { get; private set; } = new UnitFamily(
-            new Unit("mile per hour", "miles per hour"), 
+            new Unit("mile per hour", "miles per hour"),
             "mph");
 
         public static UnitFamily Kmph { get; private set; } = new UnitFamily(
-            new Unit("kilometer per hour", "kilometers per hour"), 
-            "km/h", 
-            "kph", 
+            new Unit("kilometer per hour", "kilometers per hour"),
+            "km/h",
+            "kph",
             "kmph");
 
         //TODO: add meters per second
 
-        public static UnitFamily Meters { get; private set; } = new UnitFamily( 
+        public static UnitFamily Meters { get; private set; } = new UnitFamily(
             new Unit("meter", "meters"),
-            new Unit("metre", "metres"), 
+            new Unit("metre", "metres"),
             "m",
 
-            new Unit("kilometer", "kilometers", 1000), 
+            new Unit("kilometer", "kilometers", 1000),
             new Unit("kilometre", "kilometres", 1000),
             new Unit("km", 1000),
 
-            new Unit("centimeter", "centimeters", 0.01), 
-            new Unit("centimetre", "centimetres", 0.01), 
+            new Unit("centimeter", "centimeters", 0.01),
+            new Unit("centimetre", "centimetres", 0.01),
             new Unit("cm", 0.01),
 
             new Unit("millimeter", "millimeters", 0.001),
             new Unit("millimetre", "millimetres", 0.001),
             new Unit("mm", 0.001)
-            );
+        );
 
-        public static UnitFamily ImperialDistances { get; private set; } = new UnitFamily( 
-            new Unit("foot", "feet"), 
+        public static UnitFamily ImperialDistances { get; private set; } = new UnitFamily(
+            new Unit("foot", "feet"),
             "ft",
 
             new Unit("mile", "miles", 5280),
             new Unit("mi", 5280),
 
-            new Unit("inch", "inches", 1.0/12),
-            new Unit("in", MatchOptions.AllowNone, 1.0/12) //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
-            );
+            new Unit("inch", "inches", 1.0 / 12),
+            new Unit("in", MatchOptions.AllowNone,
+                1.0 / 12) //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
+        );
 
         //TODO: add yards but never convert TO them
 
@@ -85,7 +86,12 @@ namespace Conversion.Model
             new Unit("long ton", "long tons", 2240)
         );
 
-        //TODO: add troy pounds and ounces, and stones
+        public static UnitFamily Stones { get; private set; } = new UnitFamily(
+            new Unit("stone", "stones")
+            //TODO: add "st" when it can be done without catching "1st"
+        );
+
+        //TODO: add troy pounds and ounces
 
         public static UnitFamily ImperialVolumes { get; private set; } = new UnitFamily(
             new Unit("imperial gallon", "imperial gallons"),
@@ -144,7 +150,8 @@ namespace Conversion.Model
             Pounds,
             ImperialVolumes, //We need this to be first because USVolumes will also catch it
             USVolumes,
-            Liters
+            Liters,
+            Stones
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);

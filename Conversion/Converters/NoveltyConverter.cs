@@ -1,5 +1,6 @@
 ﻿using Conversion.Model;
 using System;
+using System.Collections.Generic;
 
 namespace Conversion.Converters
 {
@@ -14,27 +15,29 @@ namespace Conversion.Converters
             _doggoThreshHold = doggoThreshHold;
         }
 
-        public override Measurement Convert(Measurement m)
+        public override IEnumerable<Measurement> Convert(Measurement m)
         {
-            //TODO: also return in inches when possible
             if (m.Unit.Singular == "banana")
             {
-                return new Measurement(
+                yield return new Measurement(
                     UnitFamily.Meters.GetUnit("centimeters"),
                     18
+                );
+
+                yield return new Measurement(
+                    UnitFamily.ImperialDistances.GetUnit("inch"),
+                    7
                 );
             }
             else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
             {
                 //dont convert this every time
                 if (_random.NextDouble() < _doggoThreshHold)
-                    return new Measurement(
+                    yield return new Measurement(
                         new Unit("goodness", "goodness"), 
                         double.PositiveInfinity
                     );
             }
-
-            return null;
         }
     }
 }

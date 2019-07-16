@@ -37,7 +37,7 @@ namespace Conversion
             if (strs == null || !strs.Any())
                 yield break;
 
-            var foundMeasurements = new Dictionary<DetectedMeasurement, Measurement>();
+            var foundMeasurements = new Dictionary<DetectedMeasurement, List<Measurement>>();
 
             //ignore empty strings
             foreach (var str in strs.Where(s => !string.IsNullOrWhiteSpace(s)))
@@ -53,7 +53,7 @@ namespace Conversion
                     foreach (var measurement in measurements)
                     {
                         if (!foundMeasurements.ContainsKey(measurement))
-                            foundMeasurements.Add(measurement, measurement);
+                            foundMeasurements.Add(measurement, new List<Measurement>(){measurement});
                     }
                 }
             }
@@ -63,14 +63,21 @@ namespace Conversion
             {
                 foreach (var pair in foundMeasurements.ToDictionary(o => o.Key, o => o.Value))
                 {
-                    var converted = converter.Convert(pair.Value);
-
-                    if (converted != null)
-                        foundMeasurements[pair.Key] = converted;
+                    foreach (var value in pair.Value.ToList())
+                    {
+                        foreach (var converted in converter.Convert(value))
+                        {
+                            if (converted != null)
+                            {
+                                foundMeasurements[pair.Key].Remove(value);
+                                foundMeasurements[pair.Key].Add(converted);
+                            }
+                        }
+                    }
                 }
             }
             
-            var successful = foundMeasurements.Where(o => o.Key != o.Value);
+            var successful = foundMeasurements.Where(o => o.Value.Count>1 || o.Key != o.Value.First());
 
             if(successful.Count() < foundMeasurements.Count())
             {
@@ -82,7 +89,7 @@ namespace Conversion
             foreach (var pair in successful)
             {
                 //format the output with 1 more significant digit to balance accuracy and readability
-                yield return pair.Key.DetectedString + " ≈ " + pair.Value.ToString(pair.Key.SignificantDigits + 1);
+                yield return pair.Key.DetectedString + " ≈ " + string.Join(", or ", pair.Value.Select(v=>v.ToString(pair.Key.SignificantDigits + 1)));
             }
         }
     }

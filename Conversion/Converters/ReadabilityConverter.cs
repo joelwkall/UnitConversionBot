@@ -1,4 +1,5 @@
 ﻿using Conversion.Model;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -9,19 +10,19 @@ namespace Conversion.Converters
     /// </summary>
     public class ReadabilityConverter : BaseConverter
     {
-        public override Measurement Convert(Measurement m)
+        public override IEnumerable<Measurement> Convert(Measurement m)
         {
             //only normal numbers
             if (double.IsSubnormal(m.Amount))
-                return null;
+                yield break;
 
             //ignore custom wacky units
             if (m.Unit.UnitFamily == null)
-                return null;
+                yield break;
 
             //dont translate stuff that was not converted
             if (m is DetectedMeasurement)
-                return null;
+                yield break;
 
             var baseAmount = m.Amount * m.Unit.Ratio;
 
@@ -43,9 +44,9 @@ namespace Conversion.Converters
 
             //dont convert if not changed
             if (preferred.unit == m.Unit)
-                return null;
+                yield break;
 
-            return new Measurement(preferred.unit, preferred.amount);
+            yield return new Measurement(preferred.unit, preferred.amount);
         }
 
         

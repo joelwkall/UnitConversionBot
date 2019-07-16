@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Conversion.Scanners;
-using System;
 
 namespace Conversion.Scanners
 {
