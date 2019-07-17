@@ -10,7 +10,7 @@ namespace Conversion.Scanners
         //Better if DetectedMeasurement had the index of the found string instead or something
         public abstract (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str);
 
-        protected static string WordSeparators = "[<>.,;:_!#¤%&()=?`@£${}+´¨~*'\"]";
+        protected static string WordSeparators = "[<>.,;:\\-_!#¤%&()=?`@£${}+´¨~*'\"]";
 
         protected bool Parse(string str, out double amount)
         {
