@@ -24,7 +24,7 @@ namespace Tests.Helpers
                         var actual = results.FirstOrDefault(a=>validPredicate(expected, a));
 
                         if (actual == null)
-                            throw new Exception($"Could not find expected conversion {expected}");
+                            throw new Exception($"Could not find expected measurement {expected}. Actual measurements were: [{string.Join(", ", results)}]");
                     }
                 }
                 else
