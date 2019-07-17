@@ -2,6 +2,7 @@
 using System.Linq;
 using Conversion.Scanners;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tests.Helpers;
 
 namespace Tests.Conversion.Scanners
 {
@@ -28,32 +29,12 @@ namespace Tests.Conversion.Scanners
                 })
             };
 
-            foreach (var (input, expectedResults) in strs)
+            ScannerUtils.Test(new SingleRegexScanner(), strs, (expected, actual) =>
             {
-                var (_,results) = new SingleRegexScanner().FindMeasurements(input);
-
-                if (expectedResults != null)
-                {
-                    Assert.AreEqual(expectedResults.Length, results.Count(), $"{input} should have given {expectedResults.Length} matches.");
-
-                    foreach (var expected in expectedResults)
-                    {
-                        var actual = results.FirstOrDefault(f =>
-                        {
-                            return f.Amount == expected.Item1 &&
-                                   f.Unit.Singular == expected.Item2 &&
-                                   f.SignificantDigits == expected.Item3;
-                        });
-
-                        if(actual==null)
-                            throw new Exception($"Could not find expected conversion {expected}");
-                    }
-                }
-                else
-                {
-                    Assert.AreEqual(0, results.Count(), input + " was not supposed to match.");
-                }
-            }
+                return actual.Amount == expected.Item1 &&
+                       actual.Unit.Singular == expected.Item2 &&
+                       actual.SignificantDigits == expected.Item3;
+            });
         }
     }
 }
