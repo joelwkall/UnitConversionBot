@@ -10,7 +10,10 @@ namespace Conversion.Scanners
         //Better if DetectedMeasurement had the index of the found string instead or something
         public abstract (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str);
 
-        protected static string WordSeparators = "[<>.,;:\\-_!#¤%&()=?`@£${}+´¨~*'\"]";
+        public static string NumberRegex = "((?:(?:\\.|,)?\\d+(?:[\\.,\\s]\\d+)*(?:(?:\\.|,)\\d+)?))";
+
+        //Omitting front slash from here because we dont want it to catch fractions
+        public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤%&()=?`@£${}+´¨~*'\"]";
 
         protected bool Parse(string str, out double amount)
         {

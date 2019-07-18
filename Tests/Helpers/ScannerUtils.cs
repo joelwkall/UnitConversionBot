@@ -17,7 +17,7 @@ namespace Tests.Helpers
 
                 if (expectedResults != null)
                 {
-                    Assert.AreEqual(expectedResults.Length, results.Count(), $"{input} should have given {expectedResults.Length} matches.");
+                    Assert.AreEqual(expectedResults.Length, results.Count(), $"{input} should have given {expectedResults.Length} matches. Actual measurements were: [{string.Join(", ", results)}]");
 
                     foreach (var expected in expectedResults)
                     {

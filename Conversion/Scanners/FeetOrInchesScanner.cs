@@ -8,7 +8,7 @@ namespace Conversion.Scanners
 {
     public class FeetOrInchesScanner : BaseScanner
     {
-        private static string _pattern = $"(?:\\s|^|{WordSeparators})((\\d+)(\"|'))(?:\\s|$|{WordSeparators})";
+        private static string _pattern = $"(?:\\s|^|{WordSeparatorRegex})({NumberRegex}(\"|'))(?:\\s|$|{WordSeparatorRegex})";
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(
             string str)

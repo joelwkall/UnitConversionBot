@@ -26,6 +26,11 @@ namespace Tests.Conversion.Scanners
                 ("Does it handle the .55 lbs format?", new[]
                 {
                     (0.55, "lb", 2)
+                }),
+                ("3in in depth and 10in wide.", new[]
+                {
+                    (3.0, "in", 1),
+                    (10.0, "in", 1)
                 })
             };
 

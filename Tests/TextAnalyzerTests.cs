@@ -69,6 +69,8 @@ namespace Tests.Conversion
         [DataRow("The smallest subspecies of the reindeer. Males average 90 kg in weight, females 70 kg", 2)]
         [DataRow("It also works with volumes such as 3 gallons, 5 liters, and 5 fl oz.", 3)]
         [DataRow("usually 15'-16' average", 2)]
+        [DataRow("And a 10 km Run (6.2 miles).", 2)]
+        [DataRow("60 mph. (97 kph)", 2)]
         public void ConvertMultiple(string str, int expected)
         {
             var results = _analyzer.FindConversions(str);
