@@ -31,7 +31,7 @@ namespace Conversion.Converters
             }
             else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
             {
-                //dont convert this every time
+                //dont convert every time
                 if (_random.NextDouble() < _doggoThreshHold)
                     yield return new Measurement(
                         new Unit("goodness", "goodness"), 

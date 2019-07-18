@@ -8,17 +8,23 @@ namespace Conversion.Scanners
     {
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str)
         {
-            string[] phrases = new[] {"banana", "doggo", "puppy", "pupper"};
+            var phrases = new[]
+            {
+                ("banana for scale", "banana"),
+                ("doggo", "doggo"),
+                ("puppy", "puppy"),
+                ("pupper", "pupper")
+            };
 
             var measurements = new List<DetectedMeasurement>();
 
-            foreach (var phrase in phrases)
+            foreach (var (phrase, result) in phrases)
             {
                 var pos = str.IndexOf(phrase, StringComparison.InvariantCultureIgnoreCase);
 
                 if (pos != -1)
                 {
-                    measurements.Add(new DetectedMeasurement(new Unit(phrase, phrase + "s"), 1, 1, "1 " + phrase));
+                    measurements.Add(new DetectedMeasurement(new Unit(result, result + "s"), 1, 1, "1 " + result));
                     str = str.Replace(phrase, "", StringComparison.InvariantCultureIgnoreCase);
                 }
 
