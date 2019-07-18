@@ -29,7 +29,7 @@ namespace Tests.Conversion
             var results = _analyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15,88 lbs ≈ 720.3 kilograms, or 113.43 stones", results.First());
+            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms, or 1.1343 stones", results.First());
         }
 
         [TestMethod]

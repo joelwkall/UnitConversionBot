@@ -1,6 +1,9 @@
-﻿using Conversion.Model;
+﻿using System;
+using Conversion.Model;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Conversion.Scanners
 {
@@ -15,11 +18,33 @@ namespace Conversion.Scanners
         //Omitting front slash from here because we dont want it to catch fractions
         public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤%&()=?`@£${}+´¨~*'\"]";
 
-        protected bool Parse(string str, out double amount)
+        public static bool Parse(string str, out double amount)
         {
-            //TODO: smarter number parser that doesn't parse "3,5" as "35"
+            //remove spaces since they are only valid as thousands separators
+            str = str.Replace(" ", "");
+
+            bool decimalComma = false;
+
+            //if there are both commas and points, then the decimal marker is the last of them
+            if (str.Contains(',') && str.Contains('.'))
+            {
+                if (str.LastIndexOf(',') > str.LastIndexOf('.'))
+                    decimalComma = true;
+            }
+            //no points, and only one comma, then probably decimal comma
+            //except if it is a clear thousands separator comma
+            else if (str.Contains(',') && str.Count(c=>c==',')==1 && !Regex.Match(str,",\\d00").Success)
+                decimalComma = true;
+            //if there is a clear thousands separator point
+            else if (Regex.Match(str, "\\.\\d00").Success)
+                decimalComma = true;
+        
+            //if it's a decimal comma, we switch commas and periods
+            if (decimalComma)
+                str = str.Replace(",", "COMMA").Replace(".", ",").Replace("COMMA", ".");
+
             if (double.TryParse(str,
-                NumberStyles.Number | NumberStyles.AllowThousands, CultureInfo.InvariantCulture,
+                NumberStyles.Number | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                 out amount))
             {
                 return true;

@@ -32,6 +32,7 @@ namespace Tests.Conversion.Scanners
         [DataRow("Parsing the number 1 000 000.0000 works", "1 000 000.0000")]
         [DataRow("Parsing the number 1,00.0000 works", "1,00.0000")] //this is invalid but we allow it and let the number parser figure it out
 
+        //decimal comma
         [DataRow("Parsing the number 1 works", "1")]
         [DataRow("Parsing the number 1,0 works", "1,0")]
         [DataRow("Parsing the number ,1 works", ",1")]
@@ -68,6 +69,41 @@ namespace Tests.Conversion.Scanners
             }
             else if (expected != null)
                 throw new Exception("No result.");
+        }
+
+        [DataTestMethod]
+        //decimal point
+        [DataRow("1.0", 1.0)]
+        [DataRow("0.5", 0.5)]
+        [DataRow(".5", 0.5)]
+        [DataRow("1000.0", 1000.0)]
+        [DataRow("1,000.0", 1000.0)]
+        [DataRow("1 000.0", 1000.0)]
+        [DataRow("1.000", 1000.0)]
+        [DataRow("1.600", 1600.0)]
+        [DataRow("1.120", 1.12)]
+        [DataRow("1,000,000.0", 1000000.0)]
+        [DataRow("1 000 000.0", 1000000.0)]
+        //decimal comma
+        [DataRow("1,0", 1.0)]
+        [DataRow("0,5", 0.5)]
+        [DataRow(",5", 0.5)]
+        [DataRow("1000,0", 1000.0)]
+        [DataRow("1.000,0", 1000.0)]
+        [DataRow("1 000,0", 1000.0)]
+        [DataRow("1,000", 1000.0)]
+        [DataRow("1,600", 1600.0)]
+        [DataRow("1,120", 1.12)]
+        [DataRow("1.000.000,0", 1000000.0)]
+        [DataRow("1 000 000,0", 1000000.0)]
+        public void Parse(string input, double expected)
+        {
+            if(BaseScanner.Parse(input, out var output))
+                Assert.AreEqual(expected, output);
+            else
+            {
+                throw new Exception("Could not parse.");
+            }
         }
     }
 }
