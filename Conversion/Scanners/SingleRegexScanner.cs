@@ -7,7 +7,6 @@ namespace Conversion.Scanners
 {
     public class SingleRegexScanner: BaseScanner
     {
-        //TODO: also catch numbers with spaces in them (like 250 000)
         private static string _regex = $"(?:\\s|^|{WordSeparatorRegex})({NumberRegex}PATTERN)(?:\\s|$|{WordSeparatorRegex})";
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str)

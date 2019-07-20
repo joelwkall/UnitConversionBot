@@ -2,6 +2,7 @@
 using Conversion.Model;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Tests.Conversion.Converters
 {
@@ -22,14 +23,11 @@ namespace Tests.Conversion.Converters
 
             foreach (var (input, expectedResult) in measurements)
             {
-                var result = new ReadabilityConverter().Convert(input);
+                var results = new ReadabilityConverter().Convert(input).Select(m => m.ToString(10)).ToList();
 
                 if (expectedResult != null)
                 {
-                    //Assert.IsNotNull(result, $"{input} was not converted correctly. Result was null.");
-                    
-                    //Assert.AreEqual(expectedResult.Amount, result.Amount, 0.00000001, $"{input} was not converted correctly regarding Amount.");
-                    //Assert.AreEqual(expectedResult.Unit.Singular, result.Unit.Singular, $"{input} was not converted correctly regarding Unit.");
+                    Assert.IsTrue(results.Contains(expectedResult.ToString(10)), $"Results did not contain {expectedResult}. Results were: [{string.Join(',', results)}]");
                 }
                 else
                 {

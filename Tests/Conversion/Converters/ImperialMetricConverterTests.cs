@@ -40,8 +40,7 @@ namespace Tests.Conversion.Converters
                     new Measurement(UnitFamily.Pounds.GetUnit("pound"), 70)
                 })
             };
-
-            //TODO: this is duplicate code from ImperialMetricConverterTests
+            
             foreach (var (input, expectedResults) in measurements)
             {
                 var results = new ImperialMetricConverter().Convert(input).Select(m=>m.ToString(10)).ToList();
