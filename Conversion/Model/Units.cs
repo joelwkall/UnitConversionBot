@@ -5,15 +5,6 @@ using System.Linq;
 
 namespace Conversion.Model
 {
-    [Flags]
-    public enum MatchOptions
-    {
-        AllowNone = 0,
-        AllowSpace = 1,
-        AllowPlural = 2,
-        AllowAll = 3
-    }
-
     public class UnitFamily
     {
         public static UnitFamily Mph { get; private set; } = new UnitFamily(
@@ -54,8 +45,7 @@ namespace Conversion.Model
             new Unit("mi", 5280),
 
             new Unit("inch", "inches", 1.0 / 12),
-            new Unit("in", MatchOptions.AllowNone,
-                1.0 / 12) //TODO: AllowNone are so few so could probably implemented as special cases in the converter instead
+            new Unit("in", 1.0 / 12)
         );
 
         //TODO: add yards but never convert TO them
@@ -191,26 +181,17 @@ namespace Conversion.Model
     {
         public string Singular { get; private set; }
         public string Plural { get; private set; }
-        public MatchOptions MatchOptions { get; private set; }
         public double Ratio { get; private set; } = 1;
         public UnitFamily UnitFamily { get; set; }
 
-        public Unit(string singular, string plural, MatchOptions matchOptions, double ratio = 1.0)
+        public Unit(string singular, string plural, double ratio = 1.0)
         {
             Singular = singular;
             Plural = plural;
-            MatchOptions = matchOptions;
             Ratio = ratio;
         }
 
-        public Unit(string singular, string plural, double ratio = 1.0) : this(singular, plural, MatchOptions.AllowAll, ratio)
-        {
-        }
-
-        public Unit(string singular, MatchOptions matchOptions, double ratio = 1.0) : this(singular, singular, matchOptions, ratio)
-        { }
-
-        public Unit(string singular, double ratio = 1.0) : this(singular, singular, MatchOptions.AllowAll, ratio)
+        public Unit(string singular, double ratio = 1.0) : this(singular, singular, ratio)
         { }
 
         public static implicit operator Unit(string singular)
@@ -234,14 +215,13 @@ namespace Conversion.Model
             return u != null &&
                    Singular == u.Singular &&
                    Plural == u.Plural &&
-                   MatchOptions == u.MatchOptions &&
                    Ratio == u.Ratio &&
                    EqualityComparer<UnitFamily>.Default.Equals(UnitFamily, u.UnitFamily);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Singular, Plural, MatchOptions, Ratio, UnitFamily);
+            return HashCode.Combine(Singular, Plural, Ratio, UnitFamily);
         }
     }
 

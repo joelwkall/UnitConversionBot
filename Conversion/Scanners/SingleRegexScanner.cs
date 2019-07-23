@@ -15,20 +15,14 @@ namespace Conversion.Scanners
 
             foreach (var u in UnitFamily.AllUnits)
             {
-                var matchOptions = u.MatchOptions;
-
                 //construct the pattern to inject based on options
                 var pattern = "(?:";
                 
-                if (matchOptions.HasFlag(MatchOptions.AllowSpace))
+                //"in" is also a word so we require it to be without space
+                if (u.Singular!="in")
                     pattern = "\\s?" + pattern;
 
-                pattern += u.Singular;
-
-                if (matchOptions.HasFlag(MatchOptions.AllowPlural))
-                    pattern += "|" + u.Plural;
-
-                pattern += ")";
+                pattern += u.Singular + "|" + u.Plural + ")";
 
                 pattern = _regex.Replace("PATTERN", pattern, true, CultureInfo.InvariantCulture);
 

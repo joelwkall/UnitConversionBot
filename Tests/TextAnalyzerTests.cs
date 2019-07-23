@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Conversion;
-using Conversion.Converters;
-using Conversion.Scanners;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.Conversion
