@@ -31,6 +31,11 @@ namespace Tests.Conversion.Scanners
                 {
                     (3.0, "in", 1),
                     (10.0, "in", 1)
+                }),
+                ("41,000 Kg / 90,000 pounds", new[]
+                {
+                    (41000.0, "kg", 2),
+                    (90000.0, "pound", 1)
                 })
             };
 

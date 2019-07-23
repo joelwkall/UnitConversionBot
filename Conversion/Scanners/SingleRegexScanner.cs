@@ -35,7 +35,7 @@ namespace Conversion.Scanners
                 //loop to find all instances in the input string
                 while (true)
                 {
-                    var regex = Regex.Match(str, pattern);
+                    var regex = Regex.Match(str, pattern, RegexOptions.IgnoreCase);
 
                     var culture = CultureInfo.InvariantCulture;
                     if (regex.Success && regex.Groups.Count > 0)
