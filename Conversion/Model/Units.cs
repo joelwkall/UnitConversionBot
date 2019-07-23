@@ -273,6 +273,8 @@ namespace Conversion.Model
             return strAmount + " " + (Amount == 1 ? Unit.Singular : Unit.Plural);
         }
 
+        public double BaseAmount => Amount * Unit.Ratio;
+
         public override string ToString()
         {
             return ToString(10);

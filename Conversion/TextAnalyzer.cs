@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Conversion.Converters;
+using Conversion.Filters;
 using Conversion.Model;
 using Conversion.Scanners;
 
@@ -21,15 +22,22 @@ namespace Conversion
                 new ImperialMetricConverter(),
                 new NoveltyConverter(0.1),
                 new ReadabilityConverter(),
-            });
+            },
+            new BaseFilter[]
+            {
+                new DuplicatesFilter(), 
+            }
+        );
 
         private IEnumerable<BaseScanner> _scanners;
         private IEnumerable<BaseConverter> _converters;
+        private IEnumerable<BaseFilter> _filters;
 
-        public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters)
+        public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters, IEnumerable<BaseFilter> filters)
         {
             _scanners = scanners;
             _converters = converters;
+            _filters = filters;
         }
 
         public IEnumerable<string> FindConversions(params string[] strs)
@@ -84,8 +92,23 @@ namespace Conversion
                 //TODO: log this
             }
 
-            //TODO: run filters (to remove duplicates (even if different measurements within same family and unnecessary conversions)
-
+            //run filters
+            var originalMeasurements = foundMeasurements.ToList();
+            foreach (var filter in _filters)
+            {
+                foreach (var pair in originalMeasurements)
+                {
+                    if (!filter.Keep(pair, originalMeasurements))
+                    {
+                        //TODO: log this
+                        foundMeasurements.Remove(pair.Key);
+                    }
+                }
+            }
+        
+            //create output
+            //TODO: here we can have a cascading list of formatters,
+            //if we want to format some measurements in a special way
             foreach (var pair in successful)
             {
                 //format the output with 1 more significant digit to balance accuracy and readability

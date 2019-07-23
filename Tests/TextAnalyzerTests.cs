@@ -69,8 +69,16 @@ namespace Tests.Conversion
         [DataRow("The smallest subspecies of the reindeer. Males average 90 kg in weight, females 70 kg", 2)]
         [DataRow("It also works with volumes such as 3 gallons, 5 liters, and 5 fl oz.", 3)]
         [DataRow("usually 15'-16' average", 2)]
-        [DataRow("And a 10 km Run (6.2 miles).", 2)]
-        [DataRow("60 mph. (97 kph)", 2)]
+        [DataRow("And a 10 km Run (6.2 miles).", 0)] //duplicate measurement
+        [DataRow("And a 10 km Run (not at all 5.2 miles).", 2)] //outside duplicate threshhold
+        [DataRow("60 mph. (97 kph)", 0)] //duplicate measurement
+        [DataRow("60 mph is definitely not equal to 120 kph", 2)] //outside duplicate threshhold
+        [DataRow("With the Apollo Space Capsule on top, it was 111 meters / 364 ft tall and " +
+                 "without a stabilizer was 10 meters / 33 ft in diameter. Fully fueled, " +
+                 "the Saturn V had a weight of 2,950 tons and had a load-carrying capacity " +
+                 "in a low Earth’s orbit, originally estimated at 118,000 kg / 260,000 pounds, " +
+                 "but designed to ship at least 41,000 Kg / 90,000 pounds to Moon. " +
+                 "Later upgrades increased this capacity…", 0)] //all duplicates
         public void ConvertMultiple(string str, int expected)
         {
             var results = _analyzer.FindConversions(str);
