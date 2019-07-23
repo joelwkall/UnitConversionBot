@@ -112,7 +112,7 @@ namespace Conversion
             foreach (var pair in successful)
             {
                 //format the output with 1 more significant digit to balance accuracy and readability
-                yield return pair.Key.DetectedString + " ≈ " + string.Join(", or ", pair.Value.Select(v=>v.ToString(pair.Key.SignificantDigits + 1)));
+                yield return pair.Key.DetectedString + " ≈ " + string.Join(" or ", pair.Value.Select(v=>v.ToString(pair.Key.SignificantDigits + 1)));
             }
         }
     }

@@ -18,7 +18,7 @@ namespace Tests.Conversion
 
             var results = _analyzer.FindConversions(str);
 
-            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms, or .857 stones", "18 mph ≈ 29 kilometers per hour" }, results.ToList(), "Results were " + string.Join(",",results));
+            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms or .857 stones", "18 mph ≈ 29 kilometers per hour" }, results.ToList(), "Results were " + string.Join(",",results));
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Tests.Conversion
             var results = _analyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms, or 1.1343 stones", results.First());
+            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms or 1.1343 stones", results.First());
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace Tests.Conversion
             var results = _analyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms, or 1.1343 stones", results.First());
+            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms or 1.1343 stones", results.First());
         }
 
         [TestMethod]
@@ -118,21 +118,21 @@ namespace Tests.Conversion
         //TODO: copy the above to lbs, since ' and " are special scanners
 
         //line breaks
-        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
-        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
-        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
-        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
-        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
-        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms, or 32.1 stones")]
+        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32.1 stones")]
 
         //special chars
-        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms, or 13.21 stones")]
+        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13.21 stones")]
         [DataRow("God imgurs at 5gb's.", null)]
-        [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stones, or 249 grams")]
+        [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stones or 249 grams")]
         [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 meters")]
 
         //novelty stuff
-        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters, or 7 inches")]
+        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches")]
         //TODO: test puppy conversions using a 1.0 threshhold noveltyconverter
 
         //converter interactions
