@@ -26,7 +26,7 @@ namespace Conversion.Model
 
             new Unit("kilometer", "kilometers", 1000),
             new Unit("kilometre", "kilometres", 1000),
-            new Unit("km", 1000),
+            new Unit("km", 1000), //TODO: detect "kms" but dont format numbers that way
 
             new Unit("centimeter", "centimeters", 0.01),
             new Unit("centimetre", "centimetres", 0.01),
@@ -105,7 +105,7 @@ namespace Conversion.Model
             new Unit("qt", 0.25),
             new Unit("us pint", "us pints", 0.125),
             new Unit("pint", "pints", 0.125),
-            new Unit("pt", 0.125),
+            new Unit("pt", 0.125), //TODO: dont catch "pt. 1" and similar
             new Unit("us fluid ounce", "us fluid ounces", 0.0078125),
             new Unit("fluid ounce", "fluid ounces", 0.0078125),
             new Unit("fl oz", 0.0078125)
@@ -293,6 +293,13 @@ namespace Conversion.Model
         {
             DetectedString = detectedString;
             SignificantDigits = significantDigits;
+        }
+    }
+
+    public class NonDetectedMeasurement : DetectedMeasurement
+    {
+        public NonDetectedMeasurement(string detectedString) : base(null, Double.NaN, 0, detectedString)
+        {
         }
     }
 }

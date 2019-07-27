@@ -15,46 +15,34 @@ namespace Conversion.Scanners
         {
             var found = new List<DetectedMeasurement>();
 
-            //TODO: this is very similar to SingleRegexScanner
             //loop to find all instances in the input string
-            while (true)
+            var detected = MatchLoop(str, _pattern, (match, _) => CreateMeasurement(match));
+
+            foreach (var d in detected)
+                str = str.Replace(d.DetectedString, "");
+
+            found.AddRange(detected);
+             
+            return (str, found);
+        }
+
+        private DetectedMeasurement CreateMeasurement(Match regex)
+        {
+            var foundStr = regex.Groups[0].Captures[0].Value;
+            var amountStr1 = regex.Groups[1].Captures[0].Value;
+            var amountStr2 = regex.Groups[2].Captures[0].Value;
+
+            if (Parse(amountStr1, out var amount1) && Parse(amountStr2, out var amount2))
             {
-                var regex = Regex.Match(str, _pattern);
+                var digits1 = Utils.DetectSignificantDigits(amountStr1);
+                var digits2 = Utils.DetectSignificantDigits(amountStr2);
 
-                var culture = CultureInfo.InvariantCulture;
-                if (regex.Success && regex.Groups.Count > 0)
-                {
-                    var foundStr = regex.Groups[0].Captures[0].Value;
-                    var amountStr1 = regex.Groups[1].Captures[0].Value;
-                    var amountStr2 = regex.Groups[2].Captures[0].Value;
-                    
-                    if (Parse(amountStr1, out var amount1) && Parse(amountStr2, out var amount2))
-                    {
-                        var digits1 = Utils.DetectSignificantDigits(amountStr1);
-                        var digits2 = Utils.DetectSignificantDigits(amountStr2);
+                var amount = amount2 + 12 * amount1;
 
-                        var amount = amount2 + 12 * amount1;
-
-                        found.Add(new DetectedMeasurement(UnitFamily.ImperialDistances.GetUnit("inch"), amount, digits1 + digits2, foundStr));
-
-                        
-                    }
-                    else
-                    {
-                        //TODO: log this
-                        //we matched on a string that was not a number. 
-                    }
-
-                    str = str.Replace(foundStr, "");
-                }
-                //if we didnt find a match, that means there are no more instances
-                else
-                {
-                    break;
-                }
+                return new DetectedMeasurement(UnitFamily.ImperialDistances.GetUnit("inch"), amount, digits1 + digits2, foundStr);
             }
 
-            return (str, found);
+            return new NonDetectedMeasurement(foundStr);
         }
     }
 }

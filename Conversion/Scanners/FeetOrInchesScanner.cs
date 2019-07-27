@@ -15,46 +15,36 @@ namespace Conversion.Scanners
         {
             var found = new List<DetectedMeasurement>();
 
-            //TODO: this is very similar to SingleRegexScanner
             //loop to find all instances in the input string
-            while (true)
-            {
-                var regex = Regex.Match(str, _pattern);
+            var detected = MatchLoop(str, _pattern, (match, s) => CreateMeasurement(match, s));
 
-                var culture = CultureInfo.InvariantCulture;
-                if (regex.Success && regex.Groups.Count > 0)
-                {
-                    var foundStr = regex.Groups[1].Captures[0].Value;
-                    var amountStr = regex.Groups[2].Captures[0].Value;
-                    var unitStr = regex.Groups[3].Captures[0].Value;
+            foreach (var d in detected)
+                str = str.Replace(d.DetectedString, "");
 
-                    if (Parse(amountStr, out var amount))
-                    {
-                        var digits = Utils.DetectSignificantDigits(amountStr);
-
-                        var unit = unitStr == "\""
-                            ? UnitFamily.ImperialDistances.GetUnit("inch")
-                            : UnitFamily.ImperialDistances.GetUnit("foot");
-
-                        if(!IsQuoting(str, foundStr, unitStr[0]))
-                            found.Add(new DetectedMeasurement(unit, amount, digits, foundStr));
-                    }
-                    else
-                    {
-                        //TODO: log this
-                        //we matched on a string that was not a number. 
-                    }
-
-                    str = str.Replace(foundStr, "");
-                }
-                //if we didnt find a match, that means there are no more instances
-                else
-                {
-                    break;
-                }
-            }
+            found.AddRange(detected);
 
             return (str, found);
+        }
+
+        private DetectedMeasurement CreateMeasurement(Match regex, string str)
+        {
+            var foundStr = regex.Groups[1].Captures[0].Value;
+            var amountStr = regex.Groups[2].Captures[0].Value;
+            var unitStr = regex.Groups[3].Captures[0].Value;
+
+            if (Parse(amountStr, out var amount))
+            {
+                var digits = Utils.DetectSignificantDigits(amountStr);
+
+                var unit = unitStr == "\""
+                    ? UnitFamily.ImperialDistances.GetUnit("inch")
+                    : UnitFamily.ImperialDistances.GetUnit("foot");
+
+                if (!IsQuoting(str, foundStr, unitStr[0]))
+                     return new DetectedMeasurement(unit, amount, digits, foundStr);
+            }
+
+            return new NonDetectedMeasurement(foundStr);
         }
 
         private bool IsQuoting(string baseStr, string subStr, char quoteType)

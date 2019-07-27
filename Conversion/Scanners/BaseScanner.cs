@@ -52,5 +52,31 @@ namespace Conversion.Scanners
 
             return false;
         }
+
+        protected static IEnumerable<DetectedMeasurement> MatchLoop(string str, string pattern, Func<Match, string, DetectedMeasurement> createFunc)
+        {
+            while (true)
+            {
+                var regex = Regex.Match(str, pattern, RegexOptions.IgnoreCase);
+
+                var culture = CultureInfo.InvariantCulture;
+                if (regex.Success && regex.Groups.Count > 0)
+                {
+                    var created = createFunc(regex, str);
+
+                    //remove the match from the string so we dont find it again
+                    str = str.Replace(created.DetectedString, "");
+
+                    //only return it if it was actually found
+                    if (!(created is NonDetectedMeasurement))
+                        yield return created;
+                }
+                //if we didnt find a match, that means there are no more instances
+                else
+                {
+                    break;
+                }
+            }
+        }
     }
 }
