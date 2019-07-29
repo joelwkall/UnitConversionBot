@@ -21,10 +21,12 @@ namespace Conversion.Scanners
         public static bool Parse(string str, out double amount)
         {
             //remove spaces since they are only valid as thousands separators
+            //TODO: only do this if it is actually a thousands separator. So we dont catch "I ran 2 5km trips today" as 25.
             str = str.Replace(" ", "");
 
             bool decimalComma = false;
 
+            //TODO: the below algorithm is not very robust. Find a better way
             //if there are both commas and points, then the decimal marker is the last of them
             if (str.Contains(',') && str.Contains('.'))
             {

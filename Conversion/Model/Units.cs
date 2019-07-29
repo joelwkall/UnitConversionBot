@@ -20,20 +20,20 @@ namespace Conversion.Model
         //TODO: add meters per second
 
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
-            new Unit("meter", "meters"),
             new Unit("metre", "metres"),
+            new Unit("meter", "meters"),
             "m",
 
-            new Unit("kilometer", "kilometers", 1000),
             new Unit("kilometre", "kilometres", 1000),
+            new Unit("kilometer", "kilometers", 1000),
             new Unit("km", 1000), //TODO: detect "kms" but dont format numbers that way
 
-            new Unit("centimeter", "centimeters", 0.01),
             new Unit("centimetre", "centimetres", 0.01),
+            new Unit("centimeter", "centimeters", 0.01),
             new Unit("cm", 0.01),
 
-            new Unit("millimeter", "millimeters", 0.001),
             new Unit("millimetre", "millimetres", 0.001),
+            new Unit("millimeter", "millimeters", 0.001),
             new Unit("mm", 0.001)
         );
 
