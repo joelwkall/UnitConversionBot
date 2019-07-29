@@ -77,7 +77,7 @@ namespace Conversion.Model
         );
 
         public static UnitFamily Stones { get; private set; } = new UnitFamily(
-            new Unit("stone", "stones")
+            new Unit("stone", "stone")
             //TODO: add "st" when it can be done without catching "1st"
         );
 
