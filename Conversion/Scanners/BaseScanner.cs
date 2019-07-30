@@ -66,6 +66,14 @@ namespace Conversion.Scanners
                 {
                     var created = createFunc(regex, str);
 
+                    //find out if there is a minus sign before the detected string
+                    //but only if preceeded by a space
+                    var index = str.IndexOf(created.DetectedString);
+                    var preceededByMinus = index > 0 && str[index - 1] == '-';
+                    var spaceBeforeMinus = index == 1 || (index > 2 && str[index - 2] == ' ');
+                    if (preceededByMinus && spaceBeforeMinus)
+                        created.DetectedString = "-" + created.DetectedString;
+
                     //remove the match from the string so we dont find it again
                     str = str.Replace(created.DetectedString, "");
 
