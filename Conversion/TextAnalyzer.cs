@@ -74,6 +74,9 @@ namespace Conversion
                 {
                     foreach (var value in pair.Value.ToList())
                     {
+                        if (value.Amount == 0.0)
+                            continue;
+
                         foreach (var converted in converter.Convert(value))
                         {
                             if (converted != null)

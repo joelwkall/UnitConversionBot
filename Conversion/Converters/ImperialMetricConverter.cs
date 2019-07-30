@@ -20,12 +20,6 @@ namespace Conversion.Converters
 
         public override IEnumerable<Measurement> Convert(Measurement m)
         {
-            if (m.Amount == 0)
-            {
-                yield return null;
-                yield break;
-            }
-
             foreach (var (from, ratio, to) in Conversions)
             {
                 if (m.Unit.UnitFamily == from)
