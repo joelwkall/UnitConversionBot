@@ -22,6 +22,7 @@ namespace Conversion
                 new ImperialMetricConverter(),
                 new NoveltyConverter(0.1),
                 new ReadabilityConverter(),
+                new TemperatureConverter(), 
             },
             new BaseFilter[]
             {

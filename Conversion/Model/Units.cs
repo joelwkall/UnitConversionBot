@@ -162,7 +162,7 @@ namespace Conversion.Model
             "* kelvin",
             "° K",
             "°K",
-            "K",
+            //"K", //removed to not catch people writing it meaning 1000
             new Unit("degree K", "degrees K"),
             "* K",
             "*K"
@@ -197,6 +197,8 @@ namespace Conversion.Model
 
             throw new Exception($"Could not find unit '{unit}' in the '{this.Units.First().Singular}' family.");
         }
+
+        public Unit PrimaryUnit => Units.First(u => u.Ratio == 1.0);
 
         static UnitFamily()
         {

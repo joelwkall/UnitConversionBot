@@ -25,14 +25,14 @@ namespace Conversion.Converters
                 if (m.Unit.UnitFamily == from)
                 {
                     yield return new Measurement(
-                        to.Units.First(e => e.Ratio == 1.0),
+                        to.PrimaryUnit,
                         m.Amount * ratio * m.Unit.Ratio
                     );
                 }
                 else if (m.Unit.UnitFamily == to)
                 {
                     yield return new Measurement(
-                        from.Units.First(e => e.Ratio == 1.0),
+                        from.PrimaryUnit,
                         m.Amount * (1/ratio) * m.Unit.Ratio
                     );
                 }
