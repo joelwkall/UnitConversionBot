@@ -22,7 +22,7 @@ namespace Conversion.Scanners
                 if (u.Singular != "in")
                     pattern = "\\s?" + pattern;
 
-                pattern += u.Singular + "|" + u.Plural + ")";
+                pattern += Escape(u.Singular) + "|" + Escape(u.Plural) + ")";
 
                 pattern = _regex.Replace("PATTERN", pattern, true, CultureInfo.InvariantCulture);
 
@@ -36,6 +36,11 @@ namespace Conversion.Scanners
             }
 
             return (str, found);
+        }
+
+        private string Escape(string unit)
+        {
+            return unit.Replace("*", "\\*");
         }
 
         private DetectedMeasurement CreateMeasurement(Match regex, Unit u)

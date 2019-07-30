@@ -36,13 +36,22 @@ namespace Tests.Conversion.Scanners
                 {
                     (41000.0, "kg", 2),
                     (90000.0, "pound", 1)
+                }),
+                ("40 celsius, 41 C, 42C, 43 degrees fahrenheit, 44F, 45 kelvin", new[]
+                {
+                    (40.0, "celsius", 1),
+                    (41.0, "C", 2),
+                    (42.0, "C", 2),
+                    (43.0, "degrees fahrenheit", 2),
+                    (44.0, "F", 2),
+                    (45.0, "Kelvin", 2)
                 })
             };
 
             ScannerUtils.Test(new SingleRegexScanner(), strs, (expected, actual) =>
             {
                 return actual.Amount == expected.Item1 &&
-                       actual.Unit.Singular == expected.Item2 &&
+                       (actual.Unit.Singular == expected.Item2 || actual.Unit.Plural == expected.Item2) &&
                        actual.SignificantDigits == expected.Item3;
             });
         }

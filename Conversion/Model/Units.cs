@@ -118,7 +118,7 @@ namespace Conversion.Model
 
             new Unit("deciliter", "deciliters", 0.1),
             new Unit("decilitre", "decilitres", 0.1),
-            new Unit("dl", 0.1),
+            new Unit("dl", 0.1), //TODO: these abbreviations often give false positives. Add range limits
 
             new Unit("centiliter", "centiliters", 0.01),
             new Unit("centilitre", "centilitres", 0.01),
@@ -127,6 +127,45 @@ namespace Conversion.Model
             new Unit("milliliter", "milliliters", 0.001),
             new Unit("millilitre", "millilitres", 0.001),
             new Unit("ml", 0.001)
+        );
+
+        public static UnitFamily Celcius { get; private set; } = new UnitFamily(
+            "° Celsius",
+            "celsius",
+            new Unit("degree celsius", "degrees celsius"),
+            "* celsius",
+            "° C",
+            "°C", 
+            "C",
+            new Unit("degree C", "degrees C"),
+            "* C",
+            "*C"
+        );
+
+        public static UnitFamily Fahrenheit { get; private set; } = new UnitFamily(
+            "° Fahrenheit",
+            "fahrenheit",
+            new Unit("degree fahrenheit", "degrees fahrenheit"),
+            "* fahrenheit",
+            "° F",
+            "°F",
+            "F",
+            new Unit("degree F", "degrees F"),
+            "* F",
+            "*F"
+        );
+
+        public static UnitFamily Kelvin { get; private set; } = new UnitFamily(
+            "Kelvin",
+            "° kelvin",
+            new Unit("degree kelvin", "degrees kelvin"),
+            "* kelvin",
+            "° K",
+            "°K",
+            "K",
+            new Unit("degree K", "degrees K"),
+            "* K",
+            "*K"
         );
 
         //TODO: it's hacky that we need to state these here
@@ -141,7 +180,10 @@ namespace Conversion.Model
             ImperialVolumes, //We need this to be first because USVolumes will also catch it
             USVolumes,
             Liters,
-            Stones
+            Stones,
+            Celcius,
+            Fahrenheit,
+            Kelvin
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);
