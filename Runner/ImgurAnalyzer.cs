@@ -71,6 +71,8 @@ namespace Core
                                 //TODO: ignore albums that are too old, only store SEEN for relevant dates
 
                                 //TODO: might want to check comments for seen albums, in case there are new comments?
+
+                                //TODO: possibility to ignore posts from users
                                 if (seenAlbums.Contains(album.Id))
                                 {
                                     continue;

@@ -16,7 +16,7 @@ namespace Tests.Conversion
 
             var results = _analyzer.FindConversions(str);
 
-            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms or .857 stones", "18 mph ≈ 29 kilometers per hour" }, results.ToList(), "Results were " + string.Join(",",results));
+            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms or .857 stone", "18 mph ≈ 29 kilometers per hour" }, results.ToList(), "Results were " + string.Join(", ",results));
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace Tests.Conversion
             var results = _analyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms or 1.1343 stones", results.First());
+            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms or 1.1343 stone", results.First());
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace Tests.Conversion
             var results = _analyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms or 1.1343 stones", results.First());
+            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms or 1.1343 stone", results.First());
         }
 
         [TestMethod]
@@ -99,15 +99,15 @@ namespace Tests.Conversion
 
         [DataTestMethod]
         //spaces and plurals
-        [DataRow("10 foot", "10 foot ≈ 3 meters")]
-        [DataRow("10 feet", "10 feet ≈ 3 meters")]
-        [DataRow("10'", "10' ≈ 3 meters")]
+        [DataRow("10 foot", "10 foot ≈ 3 metres")]
+        [DataRow("10 feet", "10 feet ≈ 3 metres")]
+        [DataRow("10'", "10' ≈ 3 metres")]
         [DataRow("10 '", null)]
         [DataRow("10's", null)]
-        [DataRow("10 inches", "10 inches ≈ 25 centimeters")]
-        [DataRow("10 inch", "10 inch ≈ 25 centimeters")]
-        [DataRow("10in", "10in ≈ 25 centimeters")]
-        [DataRow("10\"", "10\" ≈ 25 centimeters")]
+        [DataRow("10 inches", "10 inches ≈ 25 centimetres")]
+        [DataRow("10 inch", "10 inch ≈ 25 centimetres")]
+        [DataRow("10in", "10in ≈ 25 centimetres")]
+        [DataRow("10\"", "10\" ≈ 25 centimetres")]
         [DataRow("10 \"", null)]
         [DataRow("10\"s", null)]
         [DataRow("10 in", null)]
@@ -116,18 +116,18 @@ namespace Tests.Conversion
         //TODO: copy the above to lbs, since ' and " are special scanners
 
         //line breaks
-        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
-        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
-        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stones")]
-        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms or 32.1 stones")]
-        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms or 32.1 stones")]
-        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32.1 stones")]
+        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone")]
+        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone")]
+        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone")]
+        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms or 32.1 stone")]
+        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms or 32.1 stone")]
+        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32.1 stone")]
 
         //special chars
-        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13.21 stones")]
+        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13.21 stone")]
         [DataRow("God imgurs at 5gb's.", null)]
-        [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stones or 249 grams")]
-        [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 meters")]
+        [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stone or 249 grams")]
+        [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 metres")]
 
         //novelty stuff
         [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches")]
@@ -138,12 +138,12 @@ namespace Tests.Conversion
         [DataRow("Do not convert 10 kilometers to feet", "10 kilometers ≈ 6.2 miles")]
 
         //quotes
-        [DataRow("A simple check for 12\" should work", "12\" ≈ 30.5 centimeters")]
-        [DataRow("When it is \"quoted as 12\" it \" should also work", "12\" ≈ 30.5 centimeters")]
+        [DataRow("A simple check for 12\" should work", "12\" ≈ 30.5 centimetres")]
+        [DataRow("When it is \"quoted as 12\" it \" should also work", "12\" ≈ 30.5 centimetres")]
         [DataRow("But a \"quote that happens to end with 12\" should not work", null)]
-        [DataRow("A phrase with a \"quote\" and also a 12\" should work", "12\" ≈ 30.5 centimeters")]
-        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" after", "12\" ≈ 30.5 centimeters")]
-        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" and /1\" after", "12\" ≈ 30.5 centimeters")]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work", "12\" ≈ 30.5 centimetres")]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" after", "12\" ≈ 30.5 centimetres")]
+        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" and /1\" after", "12\" ≈ 30.5 centimetres")]
         public void ConvertSingle(string input, string expected)
         {
             var results = _analyzer.FindConversions(input);
@@ -171,7 +171,7 @@ namespace Tests.Conversion
         {
             var results = _analyzer.FindConversions("It varied from 12 ft. to about", "And then another text with no measurements.");
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("12 ft ≈ 3.66 meters", results.First());
+            Assert.AreEqual("12 ft ≈ 3.66 metres", results.First());
         }
     }
 }
