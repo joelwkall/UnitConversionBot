@@ -139,6 +139,7 @@ namespace Tests.Conversion
         [DataRow("It was 100 degrees F yesterday", "100 degrees F ≈ 38 ° Celsius or 310 Kelvin")]
         [DataRow("It was 45C yesterday", "45C ≈ 113 ° Fahrenheit or 318 Kelvin")]
         [DataRow("Liquid nitrogen is 77 Kelvin or colder", "77 Kelvin ≈ -196 ° Celsius or -321 ° Fahrenheit")]
+        [DataRow("SKV-0MG-87G", "87G ≈ .0137 stone or 3.07 ounces")] //dont convert 0
 
         //quotes
         [DataRow("A simple check for 12\" should work", "12\" ≈ 30.5 centimetres")]

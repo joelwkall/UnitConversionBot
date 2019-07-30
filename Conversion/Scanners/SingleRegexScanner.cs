@@ -7,6 +7,7 @@ namespace Conversion.Scanners
 {
     public class SingleRegexScanner: BaseScanner
     {
+        //TODO: disqualify if there is a currency sign before or code after
         private static string _regex = $"(?:\\s|^|{WordSeparatorRegex})({NumberRegex}PATTERN)(?:\\s|$|{WordSeparatorRegex})";
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str)
