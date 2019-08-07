@@ -11,7 +11,7 @@ namespace Conversion.Converters
             (UnitFamily.Mph, 1.609344, UnitFamily.Kmph),
             (UnitFamily.ImperialDistances, 0.3048, UnitFamily.Meters),
             (UnitFamily.Pounds, 0.45359237, UnitFamily.Kilograms),
-            (UnitFamily.Stones, 6.35029318, UnitFamily.Kilograms), //TODO: maybe dont convert very small numbers to stones (separate stone converter?)
+            (UnitFamily.Stones, 6.35029318, UnitFamily.Kilograms), //TODO: maybe dont convert very small numbers to stones (a range filter)
             (UnitFamily.Stones, 14, UnitFamily.Pounds),
             (UnitFamily.USVolumes, 3.78541178, UnitFamily.Liters),
             (UnitFamily.ImperialVolumes, 4.54609188, UnitFamily.Liters),

@@ -22,7 +22,7 @@ namespace Conversion.Model
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
             new Unit("metre", "metres"),
             new Unit("meter", "meters"),
-            "m",
+            "m",  //TODO: disqualify uppercase
 
             new Unit("kilometre", "kilometres", 1000),
             new Unit("kilometer", "kilometers", 1000),
@@ -46,16 +46,18 @@ namespace Conversion.Model
 
             new Unit("inch", "inches", 1.0 / 12),
             new Unit("in", 1.0 / 12)
+
+            //TODO: add thou
         );
 
-        //TODO: add yards but never convert TO them
+        //TODO: add yards but never convert TO them (or maybe?)
 
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
             "kg", //TODO: detect "kgs" but dont format numbers that way
 
             new Unit("gram", "grams", 0.001),
-            new Unit("g", 0.001),
+            new Unit("g", 0.001), //TODO: disqualify uppercase
             new Unit("milligram", "milligrams", 0.000001),
             new Unit("mg", 0.000001),
             new Unit("microgram", "micrograms", 0.000000001),
@@ -114,7 +116,7 @@ namespace Conversion.Model
         public static UnitFamily Liters { get; private set; } = new UnitFamily(
             new Unit("liter", "liters"),
             new Unit("litre", "litres"),
-            "l",
+            "l",  //TODO: disqualify uppercase
 
             new Unit("deciliter", "deciliters", 0.1),
             new Unit("decilitre", "decilitres", 0.1),
@@ -136,7 +138,7 @@ namespace Conversion.Model
             "* celsius",
             "° C",
             "°C", 
-            "C",
+            "C", //TODO: dont catch this, too many false positives
             new Unit("degree C", "degrees C"),
             "* C",
             "*C"
@@ -149,7 +151,7 @@ namespace Conversion.Model
             "* fahrenheit",
             "° F",
             "°F",
-            "F",
+            "F", //TODO: dont catch this, too many false positives
             new Unit("degree F", "degrees F"),
             "* F",
             "*F"
