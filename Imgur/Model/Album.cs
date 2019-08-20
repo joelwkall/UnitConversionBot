@@ -12,6 +12,7 @@
     public class Album : Item
     {
         public Image[] Images;
+        public string Account_Url;
 
         public class Image : Item
         {

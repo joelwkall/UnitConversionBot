@@ -36,6 +36,7 @@ namespace Core
 
         public void Run()
         {
+            var ignoreUserIds = GetIgnoreUserIds().ToList();
             var seenAlbums = GetSeenAlbumIds().ToList();
             
             foreach(var section in new[] { "hot", "top", "user"})
@@ -77,7 +78,13 @@ namespace Core
                                 {
                                     continue;
                                 }
-                                
+
+                                if (ignoreUserIds.Contains(album.Account_Url))
+                                {
+                                    Log("Ignoring posts from user " + album.Account_Url);
+                                    continue;
+                                }
+
                                 var texts = new List<string>();
 
                                 texts.Add(album.Title);
@@ -151,6 +158,26 @@ namespace Core
         public static IEnumerable<string> GetSeenAlbumIds()
         {
             var filePath = "seenAlbumIds.txt";
+            if (!File.Exists(filePath))
+                yield break;
+
+            using (var reader = new StreamReader(filePath))
+            {
+                while (true)
+                {
+                    var line = reader.ReadLine();
+
+                    if (line == null)
+                        break;
+
+                    yield return line;
+                }
+            }
+        }
+
+        public static IEnumerable<string> GetIgnoreUserIds()
+        {
+            var filePath = "ignoreUserIds.txt";
             if (!File.Exists(filePath))
                 yield break;
 
