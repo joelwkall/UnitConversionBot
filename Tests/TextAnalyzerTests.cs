@@ -16,7 +16,7 @@ namespace Tests.Conversion
 
             var results = _analyzer.FindConversions(str);
 
-            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms or .857 stone", "18 mph ≈ 29 kilometers per hour" }, results.ToList(), "Results were " + string.Join(", ",results));
+            CollectionAssert.AreEquivalent(new[]{ "12 lbs ≈ 5.44 kilograms or .857 stone", "18 mph ≈ 29 kilometres per hour" }, results.ToList(), "Results were " + string.Join(", ",results));
         }
 
         [TestMethod]

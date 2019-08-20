@@ -13,7 +13,7 @@ namespace Tests.Conversion.Converters
         {
             var measurements = new[]
             {
-                (new Measurement(UnitFamily.Mph.GetUnit("mph"), 10), new[]{new Measurement(UnitFamily.Kmph.GetUnit("kilometers per hour"), 16.09344)}),
+                (new Measurement(UnitFamily.Mph.GetUnit("mph"), 10), new[]{new Measurement(UnitFamily.Kmph.GetUnit("kilometres per hour"), 16.09344)}),
                 (new Measurement(UnitFamily.Kmph.GetUnit("km/h"), 10), new[]{new Measurement(UnitFamily.Mph.GetUnit("miles per hour"), 6.21371192237334)}),
 
                 (new Measurement(UnitFamily.ImperialDistances.GetUnit("feet"), 10), new[]{new Measurement(UnitFamily.Meters.GetUnit("metre"), 3.048)}),
