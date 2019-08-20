@@ -7,6 +7,6 @@ namespace Conversion.Converters
 {
     public abstract class BaseConverter
     {
-        public abstract IEnumerable<Measurement> Convert(Measurement m);
+        public abstract void Convert(ConversionCollection c);
     }
 }

@@ -10,45 +10,50 @@ namespace Conversion.Converters
     /// </summary>
     public class ReadabilityConverter : BaseConverter
     {
-        public override IEnumerable<Measurement> Convert(Measurement m)
+        public override void Convert(ConversionCollection collection)
         {
-            //only normal numbers
-            if (double.IsSubnormal(m.Amount))
-                yield break;
-
-            //ignore custom wacky units
-            if (m.Unit.UnitFamily == null)
-                yield break;
-
-            //dont translate stuff that was not converted
-            if (m is DetectedMeasurement)
-                yield break;
-
-            var baseAmount = m.Amount * m.Unit.Ratio;
-
-            var preferred = (unit: m.Unit, amount: m.Amount, numberOfZeroes: Utils.CountLeadingTrailingZeroes(m.Amount));
-
-            foreach (var u in m.Unit.UnitFamily.Units)
+            foreach (var m in collection.ConvertedMeasurements.ToList())
             {
-                var convertedAmount = baseAmount / u.Ratio;
+                //only normal numbers
+                if (double.IsSubnormal(m.Amount))
+                    continue;
 
-                //if the new number has fewer zeroes
-                //or the same number of zeroes but a smaller number
-                //then the new unit is preferred
-                var numberOfZeroesConverted = Utils.CountLeadingTrailingZeroes(convertedAmount);
+                //ignore custom wacky units
+                if (m.Unit.UnitFamily == null)
+                    continue;
 
-                if (numberOfZeroesConverted < preferred.numberOfZeroes ||
-                    numberOfZeroesConverted == preferred.numberOfZeroes && convertedAmount < preferred.amount)
-                    preferred = (u, convertedAmount, numberOfZeroesConverted);
+                //dont translate stuff that was not converted
+                if (m is DetectedMeasurement)
+                    continue;
+
+                var baseAmount = m.Amount * m.Unit.Ratio;
+
+                var preferred = (unit: m.Unit, amount: m.Amount,
+                    numberOfZeroes: Utils.CountLeadingTrailingZeroes(m.Amount));
+
+                foreach (var u in m.Unit.UnitFamily.Units)
+                {
+                    var convertedAmount = baseAmount / u.Ratio;
+
+                    //if the new number has fewer zeroes
+                    //or the same number of zeroes but a smaller number
+                    //then the new unit is preferred
+                    var numberOfZeroesConverted = Utils.CountLeadingTrailingZeroes(convertedAmount);
+
+                    if (numberOfZeroesConverted < preferred.numberOfZeroes ||
+                        numberOfZeroesConverted == preferred.numberOfZeroes && convertedAmount < preferred.amount)
+                        preferred = (u, convertedAmount, numberOfZeroesConverted);
+                }
+
+                //dont convert if not changed
+                if (preferred.unit == m.Unit)
+                    continue;
+
+                //replace the old with the new
+                collection.ConvertedMeasurements.Remove(m);
+                collection.ConvertedMeasurements.Add(new Measurement(preferred.unit, preferred.amount));
             }
 
-            //dont convert if not changed
-            if (preferred.unit == m.Unit)
-                yield break;
-
-            yield return new Measurement(preferred.unit, preferred.amount);
         }
-
-        
     }
 }

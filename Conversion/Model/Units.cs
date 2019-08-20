@@ -341,6 +341,10 @@ namespace Conversion.Model
             DetectedString = detectedString;
             SignificantDigits = significantDigits;
         }
+
+        public DetectedMeasurement(Unit unit, double amount) : base(unit, amount)
+        {
+        }
     }
 
     public class NonDetectedMeasurement : DetectedMeasurement

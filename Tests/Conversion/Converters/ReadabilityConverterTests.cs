@@ -1,4 +1,6 @@
-﻿using Conversion.Converters;
+﻿using System.Collections.Generic;
+using Conversion;
+using Conversion.Converters;
 using Conversion.Model;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +25,9 @@ namespace Tests.Conversion.Converters
 
             foreach (var (input, expectedResult) in measurements)
             {
-                var results = new ReadabilityConverter().Convert(input).Select(m => m.ToString(10)).ToList();
+                var collection = new ConversionCollection(null, new List<Measurement>(){input});
+                new ReadabilityConverter().Convert(collection);
+                var results = collection.ConvertedMeasurements.Select(m => m.ToString(10)).ToList();
 
                 if (expectedResult != null)
                 {

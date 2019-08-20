@@ -15,16 +15,16 @@ namespace Conversion.Filters
     /// </summary>
     public class DuplicatesFilter : BaseFilter
     {
-        internal override bool Keep(KeyValuePair<DetectedMeasurement, List<Measurement>> pair, IEnumerable<KeyValuePair<DetectedMeasurement, List<Measurement>>> originalMeasurements)
+        internal override bool Keep(ConversionCollection collection, IEnumerable<ConversionCollection> originalCollections)
         {
             //if the detected measurement is included in any of the other converted measurements
-            if (originalMeasurements.Any(otherPair =>
-                otherPair.Value.Any(otherValue => RepresentsTheSame(pair.Key, otherValue))))
+            if (originalCollections.Any(otherCollection =>
+                otherCollection.ConvertedMeasurements.Any(otherValue => RepresentsTheSame(collection.DetectedMeasurement, otherValue))))
                 return false;
 
             //if any of the converted measurements is already one of the detected measurements
-            if (originalMeasurements.Any(otherPair => 
-                pair.Value.Any(value => RepresentsTheSame(otherPair.Key, value))))
+            if (originalCollections.Any(otherCollection =>
+                collection.ConvertedMeasurements.Any(value => RepresentsTheSame(otherCollection.DetectedMeasurement, value))))
                 return false;
 
             return true;

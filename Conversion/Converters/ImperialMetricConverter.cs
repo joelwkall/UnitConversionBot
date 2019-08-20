@@ -18,23 +18,26 @@ namespace Conversion.Converters
             (UnitFamily.USVolumes, 0.83267384, UnitFamily.ImperialVolumes),
         };
 
-        public override IEnumerable<Measurement> Convert(Measurement m)
+        public override void Convert(ConversionCollection collection)
         {
-            foreach (var (from, ratio, to) in Conversions)
+            foreach (var m in collection.AllValidMeasurements.ToList())
             {
-                if (m.Unit.UnitFamily == from)
+                foreach (var (from, ratio, to) in Conversions)
                 {
-                    yield return new Measurement(
-                        to.PrimaryUnit,
-                        m.Amount * ratio * m.Unit.Ratio
-                    );
-                }
-                else if (m.Unit.UnitFamily == to)
-                {
-                    yield return new Measurement(
-                        from.PrimaryUnit,
-                        m.Amount * (1/ratio) * m.Unit.Ratio
-                    );
+                    if (m.Unit.UnitFamily == from)
+                    {
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            to.PrimaryUnit,
+                            m.Amount * ratio * m.Unit.Ratio
+                        ));
+                    }
+                    else if (m.Unit.UnitFamily == to)
+                    {
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            from.PrimaryUnit,
+                            m.Amount * (1 / ratio) * m.Unit.Ratio
+                        ));
+                    }
                 }
             }
         }

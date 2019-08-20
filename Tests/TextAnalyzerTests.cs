@@ -130,7 +130,7 @@ namespace Tests.Conversion
         [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 metres")]
 
         //novelty stuff
-        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches")]
+        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7.1 inches")]
         //TODO: test puppy conversions using a 1.0 threshhold noveltyconverter
 
         //converter interactions
@@ -156,7 +156,7 @@ namespace Tests.Conversion
 
             if (expected != null)
             {
-                Assert.AreEqual(1, results.Count(), input + " should have given 1 match.");
+                Assert.AreEqual(1, results.Count(), input + " should have given 1 match. Results were [" + string.Join(',', results) + "]");
                 Assert.AreEqual(expected, results.First());
             }
             else

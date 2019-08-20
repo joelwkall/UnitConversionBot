@@ -7,6 +7,24 @@ using Conversion.Scanners;
 
 namespace Conversion
 {
+    public class ConversionCollection
+    {
+        public DetectedMeasurement DetectedMeasurement;
+        public List<Measurement> ConvertedMeasurements;
+
+        public IEnumerable<Measurement> AllValidMeasurements => ConvertedMeasurements.Prepend(DetectedMeasurement).Where(v=>v.Amount != 0);
+
+        public ConversionCollection(DetectedMeasurement detectedMeasurement) : this(detectedMeasurement, new List<Measurement>())
+        {
+        }
+
+        public ConversionCollection(DetectedMeasurement detectedMeasurement, IEnumerable<Measurement> convertedMeasurements)
+        {
+            DetectedMeasurement = detectedMeasurement;
+            ConvertedMeasurements = convertedMeasurements.ToList();
+        }
+    }
+
     public class TextAnalyzer
     {
         public static TextAnalyzer Default { get; private set; } = new TextAnalyzer(
@@ -19,8 +37,8 @@ namespace Conversion
             },
             new BaseConverter[]
             {
-                new ImperialMetricConverter(),
                 new NoveltyConverter(0.1),
+                new ImperialMetricConverter(),
                 new ReadabilityConverter(),
                 new TemperatureConverter(), 
             },
@@ -46,7 +64,7 @@ namespace Conversion
             if (strs == null || !strs.Any())
                 yield break;
 
-            var foundMeasurements = new Dictionary<DetectedMeasurement, List<Measurement>>();
+            var foundMeasurements = new List<ConversionCollection>();
 
             //ignore empty strings
             foreach (var str in strs.Where(s => !string.IsNullOrWhiteSpace(s)))
@@ -61,8 +79,8 @@ namespace Conversion
 
                     foreach (var measurement in measurements)
                     {
-                        if (!foundMeasurements.ContainsKey(measurement))
-                            foundMeasurements.Add(measurement, new List<Measurement>(){measurement});
+                        if (!foundMeasurements.Any(c=>c.DetectedMeasurement==measurement))
+                            foundMeasurements.Add(new ConversionCollection(measurement));
                     }
                 }
             }
@@ -70,42 +88,24 @@ namespace Conversion
             //run them through converters
             foreach (var converter in _converters)
             {
-                foreach (var pair in foundMeasurements.ToDictionary(o => o.Key, o => o.Value))
+                foreach (var collection in foundMeasurements)
                 {
-                    foreach (var value in pair.Value.ToList())
-                    {
-                        if (value.Amount == 0.0)
-                            continue;
-
-                        foreach (var converted in converter.Convert(value))
-                        {
-                            if (converted != null)
-                            {
-                                foundMeasurements[pair.Key].Remove(value);
-                                foundMeasurements[pair.Key].Add(converted);
-                            }
-                        }
-                    }
+                    converter.Convert(collection);
                 }
             }
-            
-            var successful = foundMeasurements.Where(o => o.Value.Count>1 || o.Key != o.Value.First());
 
-            if(successful.Count() < foundMeasurements.Count())
-            {
-                //TODO: log this
-            }
+            foundMeasurements = foundMeasurements.Where(o => o.ConvertedMeasurements.Count>0).ToList();
 
             //run filters
-            var originalMeasurements = foundMeasurements.ToList();
+            var originalMeasurements = foundMeasurements.ToList(); //clone so we can modify it
             foreach (var filter in _filters)
             {
-                foreach (var pair in originalMeasurements)
+                foreach (var collection in originalMeasurements)
                 {
-                    if (!filter.Keep(pair, originalMeasurements))
+                    if (!filter.Keep(collection, originalMeasurements))
                     {
                         //TODO: log this
-                        foundMeasurements.Remove(pair.Key);
+                        foundMeasurements.Remove(collection);
                     }
                 }
             }
@@ -113,10 +113,10 @@ namespace Conversion
             //create output
             //TODO: here we can have a cascading list of formatters,
             //if we want to format some measurements in a special way
-            foreach (var pair in successful)
+            foreach (var collection in foundMeasurements)
             {
                 //format the output with 1 more significant digit to balance accuracy and readability
-                yield return pair.Key.DetectedString + " ≈ " + string.Join(" or ", pair.Value.Select(v=>v.ToString(pair.Key.SignificantDigits + 1)));
+                yield return collection.DetectedMeasurement.DetectedString + " ≈ " + string.Join(" or ", collection.ConvertedMeasurements.Select(v=>v.ToString(collection.DetectedMeasurement.SignificantDigits + 1)));
             }
         }
     }

@@ -15,28 +15,31 @@ namespace Conversion.Converters
             _doggoThreshHold = doggoThreshHold;
         }
 
-        public override IEnumerable<Measurement> Convert(Measurement m)
+        public override void Convert(ConversionCollection collection)
         {
-            if (m.Unit.Singular == "banana")
+            foreach (var m in collection.AllValidMeasurements)
             {
-                yield return new Measurement(
-                    UnitFamily.Meters.GetUnit("centimeters"),
-                    18
-                );
+                if (m.Unit.Singular == "banana")
+                {
+                    collection.ConvertedMeasurements.Add(new Measurement(
+                        UnitFamily.Meters.GetUnit("centimeters"),
+                        18
+                    ));
 
-                yield return new Measurement(
-                    UnitFamily.ImperialDistances.GetUnit("inch"),
-                    7
-                );
-            }
-            else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
-            {
-                //dont convert every time
-                if (_random.NextDouble() < _doggoThreshHold)
-                    yield return new Measurement(
-                        new Unit("goodness", "goodness"), 
-                        double.PositiveInfinity
-                    );
+                    //collection.ConvertedMeasurements.Add(new Measurement(
+                    //    UnitFamily.ImperialDistances.GetUnit("inch"),
+                    //    7
+                    //));
+                }
+                else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
+                {
+                    //dont convert every time
+                    if (_random.NextDouble() < _doggoThreshHold)
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            new Unit("goodness", "goodness"),
+                            double.PositiveInfinity
+                        ));
+                }
             }
         }
     }
