@@ -16,7 +16,7 @@ namespace Conversion.Scanners
         public static string NumberRegex = "((?:(?:\\.|,)?\\d+(?:[\\.,\\s]\\d+)*(?:(?:\\.|,)\\d+)?))";
 
         //Omitting front slash from here because we dont want it to catch fractions
-        public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤%&()=?`@{}+´¨~*'\"]";
+        public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤&()=?`@{}+´¨~*'\"]";
 
         public static bool Parse(string str, out double amount)
         {
@@ -33,8 +33,8 @@ namespace Conversion.Scanners
                 if (str.LastIndexOf(',') > str.LastIndexOf('.'))
                     decimalComma = true;
             }
-            //no points, and only one comma, then probably decimal comma
-            //except if it is a clear thousands separator comma
+            //no points, and only one comma, then probably decimal comma 
+            //except if it is a clear thousands separator comma (TODO: always exclude when 3, 6, 9 decimals?)
             else if (str.Contains(',') && str.Count(c=>c==',')==1 && !Regex.Match(str,",\\d00").Success)
                 decimalComma = true;
             //if there is a clear thousands separator point
