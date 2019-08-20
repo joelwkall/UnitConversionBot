@@ -12,6 +12,7 @@ namespace Conversion.Model
             "mph");
 
         public static UnitFamily Kmph { get; private set; } = new UnitFamily(
+            new Unit("kilometre per hour", "kilometres per hour"),
             new Unit("kilometer per hour", "kilometers per hour"),
             "km/h",
             "kph",
@@ -138,7 +139,7 @@ namespace Conversion.Model
             "* celsius",
             "° C",
             "°C", 
-            "C", //TODO: dont catch this, too many false positives
+            "C", //TODO: dont catch this, too many false positives?
             new Unit("degree C", "degrees C"),
             "* C",
             "*C"
@@ -151,7 +152,7 @@ namespace Conversion.Model
             "* fahrenheit",
             "° F",
             "°F",
-            "F", //TODO: dont catch this, too many false positives
+            "F", //TODO: dont catch this, too many false positives?
             new Unit("degree F", "degrees F"),
             "* F",
             "*F"
