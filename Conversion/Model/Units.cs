@@ -171,6 +171,10 @@ namespace Conversion.Model
             "*K"
         );
 
+        public static UnitFamily WashingMachines { get; private set; } = new UnitFamily(
+            new Unit("washing machine", "washing machines")
+        );
+
         //TODO: it's hacky that we need to state these here
         public static List<UnitFamily> AllFamilies => new List<UnitFamily>
         {
@@ -186,7 +190,8 @@ namespace Conversion.Model
             Stones,
             Celcius,
             Fahrenheit,
-            Kelvin
+            Kelvin,
+            WashingMachines
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);

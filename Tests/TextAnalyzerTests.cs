@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Net.Mime;
 using Conversion;
+using Conversion.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.Conversion
@@ -7,7 +9,15 @@ namespace Tests.Conversion
     [TestClass]
     public class TextAnalyzerTests
     {
-        private TextAnalyzer _analyzer = TextAnalyzer.Default;
+        private TextAnalyzer _analyzer = CreateAnalyzer();
+
+        private static TextAnalyzer CreateAnalyzer()
+        {
+            var a = TextAnalyzer.CreateNewDefault();
+            foreach(var nc in a.Converters.OfType<NoveltyConverter>())
+                nc.SetRandomThreshHold(1.0);
+            return a;
+        }
 
         [TestMethod]
         public void BeginningAndEnd()
@@ -131,7 +141,9 @@ namespace Tests.Conversion
 
         //novelty stuff
         [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7.1 inches")]
-        //TODO: test puppy conversions using a 1.0 threshhold noveltyconverter
+        [DataRow("This is a nice doggo", "1 doggo ≈ Infinity goodness")]
+        [DataRow("This hole is 7 washing machines across", "7 washing machines ≈ 14 feet or 4.2 metres")]
+        [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 2 feet or .6 metres")]
 
         //converter interactions
         [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet")]

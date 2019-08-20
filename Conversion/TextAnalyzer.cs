@@ -27,36 +27,41 @@ namespace Conversion
 
     public class TextAnalyzer
     {
-        public static TextAnalyzer Default { get; private set; } = new TextAnalyzer(
-            new BaseScanner[]
-            {
-                new NoveltyScanner(),
-                new FeetAndInchesScanner(),
-                new FeetOrInchesScanner(),
-                new SingleRegexScanner(),
-            },
-            new BaseConverter[]
-            {
-                new NoveltyConverter(0.1),
-                new ImperialMetricConverter(),
-                new ReadabilityConverter(),
-                new TemperatureConverter(), 
-            },
-            new BaseFilter[]
-            {
-                new DuplicatesFilter(), 
-            }
-        );
+        public static TextAnalyzer Default { get; private set; } = CreateNewDefault();
 
-        private IEnumerable<BaseScanner> _scanners;
-        private IEnumerable<BaseConverter> _converters;
-        private IEnumerable<BaseFilter> _filters;
-
-        public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters, IEnumerable<BaseFilter> filters)
+        public static TextAnalyzer CreateNewDefault()
         {
-            _scanners = scanners;
-            _converters = converters;
-            _filters = filters;
+            return new TextAnalyzer(
+                new BaseScanner[]
+                {
+                    new FeetAndInchesScanner(),
+                    new FeetOrInchesScanner(),
+                    new SingleRegexScanner(),
+                    new NoveltyScanner(),
+                },
+                new BaseConverter[]
+                {
+                    new NoveltyConverter(0.1),
+                    new ImperialMetricConverter(),
+                    new ReadabilityConverter(),
+                    new TemperatureConverter(),
+                },
+                new BaseFilter[]
+                {
+                    new DuplicatesFilter(),
+                }
+            );
+        }
+
+        public IEnumerable<BaseScanner> Scanners { get; private set; }
+        public IEnumerable<BaseConverter> Converters { get; private set; }
+        public IEnumerable<BaseFilter> Filters { get; private set; }
+
+    public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters, IEnumerable<BaseFilter> filters)
+        {
+            Scanners = scanners;
+            Converters = converters;
+            Filters = filters;
         }
 
         public IEnumerable<string> FindConversions(params string[] strs)
@@ -72,7 +77,7 @@ namespace Conversion
                 var currentStr = str;
 
                 //detect all measurements in all texts
-                foreach (var scanner in _scanners)
+                foreach (var scanner in Scanners)
                 {
                     var (newStr, measurements) = scanner.FindMeasurements(currentStr);
                     currentStr = newStr;
@@ -86,7 +91,7 @@ namespace Conversion
             }
 
             //run them through converters
-            foreach (var converter in _converters)
+            foreach (var converter in Converters)
             {
                 foreach (var collection in foundMeasurements)
                 {
@@ -98,7 +103,7 @@ namespace Conversion
 
             //run filters
             var originalMeasurements = foundMeasurements.ToList(); //clone so we can modify it
-            foreach (var filter in _filters)
+            foreach (var filter in Filters)
             {
                 foreach (var collection in originalMeasurements)
                 {

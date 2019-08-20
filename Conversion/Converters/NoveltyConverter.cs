@@ -8,11 +8,17 @@ namespace Conversion.Converters
     {
         private static Random _random = new Random();
 
-        private double _doggoThreshHold;
+        private double _randomThreshHold;
 
-        public NoveltyConverter(double doggoThreshHold = 0.1)
+        //only for testing
+        public void SetRandomThreshHold(double threshHold)
         {
-            _doggoThreshHold = doggoThreshHold;
+            _randomThreshHold = threshHold;
+        }
+
+        public NoveltyConverter(double randomThreshHold = 0.1)
+        {
+            _randomThreshHold = randomThreshHold;
         }
 
         public override void Convert(ConversionCollection collection)
@@ -34,10 +40,19 @@ namespace Conversion.Converters
                 else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
                 {
                     //dont convert every time
-                    if (_random.NextDouble() < _doggoThreshHold)
+                    if (_random.NextDouble() < _randomThreshHold)
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("goodness", "goodness"),
                             double.PositiveInfinity
+                        ));
+                }
+                else if (m.Unit.Singular == "washing machine")
+                {
+                    //dont convert every time
+                    if (_random.NextDouble() < _randomThreshHold)
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            UnitFamily.Meters.GetUnit("centimeter"),
+                            m.Amount * 60
                         ));
                 }
             }

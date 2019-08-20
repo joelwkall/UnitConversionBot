@@ -13,7 +13,8 @@ namespace Conversion.Scanners
                 ("banana for scale", "banana"),
                 ("doggo", "doggo"),
                 ("puppy", "puppy"),
-                ("pupper", "pupper")
+                ("pupper", "pupper"),
+                ("washing machine", "washing machine"),
             };
 
             var measurements = new List<DetectedMeasurement>();
