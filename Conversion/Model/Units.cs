@@ -52,6 +52,8 @@ namespace Conversion.Model
             new Unit("inch", "inches", 1.0 / 12),
             new Unit("in", 1.0 / 12),
 
+            new Unit("thousandth of an inch", "thousandths of an inch", 1.0 / 12000),
+            new Unit("thou", "thous", 1.0 / 12000)
         );
 
         //TODO: add yards but never convert TO them (or maybe?)
