@@ -142,7 +142,7 @@ namespace Tests.Conversion
         //novelty stuff
         [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7.1 inches")]
         [DataRow("This is a nice doggo", "1 doggo ≈ Infinity goodness")]
-        [DataRow("This hole is 7 washing machines across", "7 washing machines ≈ 14 feet or 4.2 metres")]
+        [DataRow("This hole is 20 meters across", "20 meters ≈ 33 washing machines or 66 feet")]
         [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 2 feet or .6 metres")]
 
         //converter interactions

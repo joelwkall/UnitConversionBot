@@ -1,6 +1,7 @@
 ﻿using Conversion.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Conversion.Converters
 {
@@ -23,7 +24,7 @@ namespace Conversion.Converters
 
         public override void Convert(ConversionCollection collection)
         {
-            foreach (var m in collection.AllValidMeasurements)
+            foreach (var m in collection.AllValidMeasurements.ToList())
             {
                 if (m.Unit.Singular == "banana")
                 {
@@ -53,6 +54,17 @@ namespace Conversion.Converters
                         collection.ConvertedMeasurements.Add(new Measurement(
                             UnitFamily.Meters.GetUnit("centimeter"),
                             m.Amount * 60
+                        ));
+                }
+                else if (m.Unit.UnitFamily == UnitFamily.Meters)
+                {
+                    var amount = m.Amount * m.Unit.Ratio / 0.6;
+
+                    //dont convert every time
+                    if (amount > 1 && amount < 100 && _random.NextDouble() < _randomThreshHold)
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            new Unit("washing machine", "washing machines"),
+                            amount
                         ));
                 }
             }
