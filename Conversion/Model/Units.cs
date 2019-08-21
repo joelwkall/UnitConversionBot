@@ -25,6 +25,9 @@ namespace Conversion.Model
             new Unit("meter", "meters"),
             "m",  //TODO: disqualify uppercase
 
+            new Unit("lightyear", "lightyears", 9.4605284 * 1_000_000_000_000_000),
+            new Unit("light year", "light years", 9.4605284 * 1_000_000_000_000_000),
+
             new Unit("kilometre", "kilometres", 1000),
             new Unit("kilometer", "kilometers", 1000),
             new Unit("km", 1000), //TODO: detect "kms" but dont format numbers that way

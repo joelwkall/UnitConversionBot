@@ -23,6 +23,7 @@ namespace Tests.Conversion.Converters
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("cm"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.328083989501312)}),
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.0328083989501312)}),
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("kilometers"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 32808.3989501312)}),
+                (new DetectedMeasurement(UnitFamily.Meters.GetUnit("lightyear"), 5), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 155192395000000000) }),
 
                 (new DetectedMeasurement(UnitFamily.USVolumes.GetUnit("gallon"), 5), new[]
                 {
