@@ -151,8 +151,9 @@ namespace Tests.Conversion
         [DataRow("It was 100 degrees F yesterday", "100 degrees F ≈ 38 ° Celsius or 310 Kelvin")]
         [DataRow("It was 45C yesterday", "45C ≈ 113 ° Fahrenheit or 318 Kelvin")]
         [DataRow("Liquid nitrogen is 77 Kelvin or colder", "77 Kelvin ≈ -196 ° Celsius or -321 ° Fahrenheit")]
-        [DataRow("It was -20C yesterday", "-20C ≈ 68 ° Fahrenheit or 290 Kelvin")] //minus sign works
-        [DataRow("-20C yesterday", "-20C ≈ 68 ° Fahrenheit or 290 Kelvin")] //even if first in string
+        [DataRow("It was -20C yesterday", "-20C ≈ -4 ° Fahrenheit or 250 Kelvin")] //minus sign works
+        [DataRow("It was -40F yesterday", "-40F ≈ -40 ° Celsius or 230 Kelvin")] //minus sign works
+        [DataRow("-20C yesterday", "-20C ≈ -4 ° Fahrenheit or 250 Kelvin")] //even if first in string
         [DataRow("SKV-0MG-87G", "87G ≈ .0137 stone or 3.07 ounces")] //dont convert 0, also dont take minus sign if no space before
 
         //quotes

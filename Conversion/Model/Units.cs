@@ -288,6 +288,11 @@ namespace Conversion.Model
             Amount = amount;
         }
 
+        public void Invert()
+        {
+            Amount = -Amount;
+        }
+
         public string ToString(int significantDigits)
         {
             string strAmount;

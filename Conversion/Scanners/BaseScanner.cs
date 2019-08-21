@@ -72,7 +72,10 @@ namespace Conversion.Scanners
                     var preceededByMinus = index > 0 && str[index - 1] == '-';
                     var spaceBeforeMinus = index == 1 || (index > 2 && str[index - 2] == ' ');
                     if (preceededByMinus && spaceBeforeMinus)
+                    {
                         created.DetectedString = "-" + created.DetectedString;
+                        created.Invert();
+                    }
 
                     //remove the match from the string so we dont find it again
                     str = str.Replace(created.DetectedString, "");
