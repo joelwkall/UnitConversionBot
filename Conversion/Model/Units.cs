@@ -15,6 +15,7 @@ namespace Conversion.Model
             new Unit("kilometre per hour", "kilometres per hour"),
             new Unit("kilometer per hour", "kilometers per hour"),
             "km/h",
+            "km / h",
             "kph",
             "kmph");
 
@@ -49,9 +50,8 @@ namespace Conversion.Model
             new Unit("mi", 5280),
 
             new Unit("inch", "inches", 1.0 / 12),
-            new Unit("in", 1.0 / 12)
+            new Unit("in", 1.0 / 12),
 
-            //TODO: add thou
         );
 
         //TODO: add yards but never convert TO them (or maybe?)

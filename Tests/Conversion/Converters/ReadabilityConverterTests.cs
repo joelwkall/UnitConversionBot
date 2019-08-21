@@ -20,6 +20,7 @@ namespace Tests.Conversion.Converters
                 (new Measurement(UnitFamily.Meters.GetUnit("centimeter"), 300), new Measurement(UnitFamily.Meters.GetUnit("metre"), 3)),
                 (new Measurement(UnitFamily.Meters.GetUnit("meter"), 3500), new Measurement(UnitFamily.Meters.GetUnit("kilometre"), 3.5)),
                 (new Measurement(UnitFamily.Meters.GetUnit("meter"), 0.25), new Measurement(UnitFamily.Meters.GetUnit("centimetre"), 25)),
+                (new Measurement(UnitFamily.ImperialDistances.GetUnit("inch"), 0.03), new Measurement(UnitFamily.ImperialDistances.GetUnit("thousandths of an inch"), 30)),
                 //TODO: test other units
             };
 
