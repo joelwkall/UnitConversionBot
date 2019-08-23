@@ -16,7 +16,7 @@ namespace Conversion.Scanners
             var found = new List<DetectedMeasurement>();
 
             //loop to find all instances in the input string
-            var detected = MatchLoop(str, _pattern, (match, s) => CreateMeasurement(match, s));
+            var detected = MatchLoop(str, _pattern, true, (match, s) => CreateMeasurement(match, s));
 
             foreach (var d in detected)
                 str = str.Replace(d.DetectedString, "");

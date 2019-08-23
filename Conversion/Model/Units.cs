@@ -24,7 +24,7 @@ namespace Conversion.Model
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
             new Unit("metre", "metres"),
             new Unit("meter", "meters"),
-            "m",  //TODO: disqualify uppercase
+            "m",
 
             new Unit("lightyear", "lightyears", 9.4605284 * 1_000_000_000_000_000),
             new Unit("light year", "light years", 9.4605284 * 1_000_000_000_000_000),
@@ -63,7 +63,7 @@ namespace Conversion.Model
             "kg", //TODO: detect "kgs" but dont format numbers that way
 
             new Unit("gram", "grams", 0.001),
-            new Unit("g", 0.001), //TODO: disqualify uppercase
+            new Unit("g", 0.001),
             new Unit("milligram", "milligrams", 0.000001),
             new Unit("mg", 0.000001),
             new Unit("microgram", "micrograms", 0.000000001),
@@ -122,7 +122,7 @@ namespace Conversion.Model
         public static UnitFamily Liters { get; private set; } = new UnitFamily(
             new Unit("liter", "liters"),
             new Unit("litre", "litres"),
-            "l",  //TODO: disqualify uppercase
+            "l",
 
             new Unit("deciliter", "deciliters", 0.1),
             new Unit("decilitre", "decilitres", 0.1),

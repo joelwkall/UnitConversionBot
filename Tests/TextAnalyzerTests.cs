@@ -158,7 +158,7 @@ namespace Tests.Conversion
         [DataRow("It was -20C yesterday", "-20C ≈ -4 ° Fahrenheit or 250 Kelvin", false)] //minus sign works
         [DataRow("It was -40F yesterday", "-40F ≈ -40 ° Celsius or 230 Kelvin", false)] //minus sign works
         [DataRow("-20C yesterday", "-20C ≈ -4 ° Fahrenheit or 250 Kelvin", false)] //even if first in string
-        [DataRow("SKV-0MG-87G", "87G ≈ .0137 stone or 3.07 ounces", false)] //dont convert 0, also dont take minus sign if no space before
+        [DataRow("SKV-0MG-87g", "87g ≈ .0137 stone or 3.07 ounces", false)] //dont convert 0, also dont take minus sign if no space before
 
         //quotes
         [DataRow("A simple check for 12\" should work", "12\" ≈ 30.5 centimetres", false)]

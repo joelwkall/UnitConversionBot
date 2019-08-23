@@ -55,11 +55,10 @@ namespace Conversion.Scanners
             return false;
         }
 
-        protected static IEnumerable<DetectedMeasurement> MatchLoop(string str, string pattern, Func<Match, string, DetectedMeasurement> createFunc)
+        protected static IEnumerable<DetectedMeasurement> MatchLoop(string str, string pattern, bool ignoreCase, Func<Match, string, DetectedMeasurement> createFunc)
         {
             while (true)
             {
-                var regex = Regex.Match(str, pattern, RegexOptions.IgnoreCase);
 
                 var culture = CultureInfo.InvariantCulture;
                 if (regex.Success && regex.Groups.Count > 0)

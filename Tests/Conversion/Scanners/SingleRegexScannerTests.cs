@@ -45,7 +45,13 @@ namespace Tests.Conversion.Scanners
                     (43.0, "degrees fahrenheit", 2),
                     (44.0, "F", 2),
                     (45.0, "Kelvin", 2)
-                })
+                }),
+                ("Should find 2m but not 3M, and 4l but not 5L, and 60g but not 70G", new[]
+                {
+                    (2, "m", 1),
+                    (4, "l", 1),
+                    (60.0, "g", 1)
+                }),
             };
 
             ScannerUtils.Test(new SingleRegexScanner(), strs, (expected, actual) =>

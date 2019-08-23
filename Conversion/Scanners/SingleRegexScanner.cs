@@ -1,14 +1,21 @@
 ﻿using Conversion.Model;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Conversion.Scanners
 {
     public class SingleRegexScanner: BaseScanner
     {
-        //TODO: disqualify if there is a currency sign before or code after
         private static string _regex = $"(?:\\s|^|{WordSeparatorRegex})({NumberRegex}PATTERN)(?:\\s|$|{WordSeparatorRegex})";
+
+        private static Unit[] _exactCaseUnits = new[]
+        {
+            UnitFamily.Meters.GetUnit("m"),
+            UnitFamily.Kilograms.GetUnit("g"),
+            UnitFamily.Liters.GetUnit("l"),
+        };
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(string str)
         {
@@ -27,8 +34,10 @@ namespace Conversion.Scanners
 
                 pattern = _regex.Replace("PATTERN", pattern, true, CultureInfo.InvariantCulture);
 
+                var ignoreCase = _exactCaseUnits.Contains(u) ? false : true;
+
                 //loop to find all instances in the input string
-                var detected = MatchLoop(str, pattern, (match, _) => CreateMeasurement(match, u));
+                var detected = MatchLoop(str, pattern, ignoreCase, (match, _) => CreateMeasurement(match, u));
 
                 foreach (var d in detected)
                     str = str.Replace(d.DetectedString, "");
