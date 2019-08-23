@@ -124,8 +124,6 @@ namespace Tests.Conversion
         [DataRow("10 in", null, false)]
         [DataRow("10ins", null, false)]
 
-        //TODO: copy the above to lbs, since ' and " are special scanners
-
         //line breaks
         [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
         [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
