@@ -33,10 +33,10 @@ namespace Conversion.Converters
                         18
                     ));
 
-                    //collection.ConvertedMeasurements.Add(new Measurement(
-                    //    UnitFamily.ImperialDistances.GetUnit("inch"),
-                    //    7
-                    //));
+                    collection.ConvertedMeasurements.Add(new Measurement(
+                        UnitFamily.ImperialDistances.GetUnit("inch"),
+                        7
+                    ));
                 }
                 else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
                 {
@@ -50,18 +50,24 @@ namespace Conversion.Converters
                 else if (m.Unit.Singular == "washing machine")
                 {
                     //dont convert every time
-                    if (_random.NextDouble() < _randomThreshHold)
+                    if (_random.NextDouble() < _randomThreshHold * 4)
+                    {
                         collection.ConvertedMeasurements.Add(new Measurement(
                             UnitFamily.Meters.GetUnit("centimeter"),
                             m.Amount * 60
                         ));
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            UnitFamily.ImperialDistances.GetUnit("feet"),
+                            m.Amount * 2
+                        ));
+                    }
                 }
-                else if (m.Unit.UnitFamily == UnitFamily.Meters)
+                else if (m.Unit.UnitFamily == UnitFamily.Meters || m.Unit.UnitFamily == UnitFamily.Kilograms)
                 {
-                    var amount = m.Amount * m.Unit.Ratio / 0.6;
+                    var amount = m.Amount * m.Unit.Ratio / (m.Unit.UnitFamily == UnitFamily.Meters ? 0.6 : 80.0);
 
                     //dont convert every time
-                    if (amount > 1 && amount < 100 && _random.NextDouble() < _randomThreshHold)
+                    if (amount > 1 && amount < 100 && _random.NextDouble() < (_randomThreshHold * 4))
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("washing machine", "washing machines"),
                             amount

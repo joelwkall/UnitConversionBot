@@ -41,10 +41,10 @@ namespace Conversion
                 },
                 new BaseConverter[]
                 {
-                    new NoveltyConverter(0.1),
                     new ImperialMetricConverter(),
                     new ReadabilityConverter(),
                     new TemperatureConverter(),
+                    new NoveltyConverter(0.1),
                 },
                 new BaseFilter[]
                 {
