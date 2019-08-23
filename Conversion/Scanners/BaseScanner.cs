@@ -59,6 +59,7 @@ namespace Conversion.Scanners
         {
             while (true)
             {
+                var regex = Regex.Match(str, pattern, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
 
                 var culture = CultureInfo.InvariantCulture;
                 if (regex.Success && regex.Groups.Count > 0)
