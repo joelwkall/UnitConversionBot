@@ -78,7 +78,7 @@ namespace Conversion.Scanners
                     }
 
                     //remove the match from the string so we dont find it again
-                    str = str.Replace(created.DetectedString, "");
+                    str = str.Replace(created.DetectedString, "[DETECTED]");
 
                     //only return it if it was actually found
                     if (!(created is NonDetectedMeasurement))
