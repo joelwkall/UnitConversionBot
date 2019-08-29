@@ -9,6 +9,8 @@ namespace Conversion.Converters
         private static List<(UnitFamily, double, UnitFamily)> Conversions = new List<(UnitFamily, double, UnitFamily)>()
         {
             (UnitFamily.Mph, 1.609344, UnitFamily.Kmph),
+            (UnitFamily.Kmph, 0.539956803, UnitFamily.Knots),
+            (UnitFamily.Mph, 0.868976242, UnitFamily.Knots),
             (UnitFamily.ImperialDistances, 0.3048, UnitFamily.Meters),
             (UnitFamily.Pounds, 0.45359237, UnitFamily.Kilograms),
             (UnitFamily.Stones, 6.35029318, UnitFamily.Kilograms), //TODO: maybe dont convert very small numbers to stones (a range filter)

@@ -229,7 +229,8 @@ namespace Conversion.Model
             Fahrenheit,
             Kelvin,
             MetricArea,
-            ImperialArea
+            ImperialArea,
+            Knots
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);

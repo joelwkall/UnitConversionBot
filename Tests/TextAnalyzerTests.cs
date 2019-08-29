@@ -127,6 +127,7 @@ namespace Tests.Conversion
         //some well chosen units
         [DataRow("This forest is 10 square miles", "10 square miles ≈ 26 square kilometres", false)]
         [DataRow("My apartment is about 92 m^2", "92 m^2 ≈ 990 square feet", false)]
+        [DataRow("This boat does 35 knots", "35 knots ≈ 64.8 kilometres per hour or 40.3 miles per hour", false)]
 
         //line breaks
         [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
