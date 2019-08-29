@@ -17,13 +17,18 @@ namespace Conversion.Model
             "km/h",
             "km / h",
             "kph",
-            "kmph");
+            "kmph"
+            );
 
+        public static UnitFamily Mps { get; private set; } = new UnitFamily(
+            new Unit("metre per second", "metres per second"),
+            new Unit("meter per second", "meters per second"),
+            new Unit("m/s")
+        );
+        
         public static UnitFamily Knots { get; private set; } = new UnitFamily(
             new Unit("knot", "knots")
             );
-
-        //TODO: add meters per second
 
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
             new Unit("metre", "metres"),
@@ -217,6 +222,7 @@ namespace Conversion.Model
         {
             Mph,
             Kmph,
+            Mps,
             Meters,
             ImperialDistances,
             Kilograms,
