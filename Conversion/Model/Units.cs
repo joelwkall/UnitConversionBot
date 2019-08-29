@@ -19,6 +19,10 @@ namespace Conversion.Model
             "kph",
             "kmph");
 
+        public static UnitFamily Knots { get; private set; } = new UnitFamily(
+            new Unit("knot", "knots")
+            );
+
         //TODO: add meters per second
 
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
@@ -57,6 +61,38 @@ namespace Conversion.Model
         );
 
         //TODO: add yards but never convert TO them (or maybe?)
+
+        public static UnitFamily MetricArea { get; private set; } = new UnitFamily(
+            new Unit("square metre", "square metres"),
+            new Unit("square meter", "square meters"),
+            new Unit("metre squared", "metres squared"),
+            new Unit("meter squared", "meters squared"),
+            "m2",
+            "m^2",
+
+            new Unit("square kilometre", "square kilometres", 1_000_000),
+            new Unit("square kilometer", "square kilometers", 1_000_000),
+            new Unit("kilometre squared", "kilometres squared", 1_000_000),
+            new Unit("kilometer squared", "kilometers squared", 1_000_000),
+            new Unit("km2", 1_000_000),
+            new Unit("km^2", 1_000_000)
+        );
+
+        public static UnitFamily ImperialArea { get; private set; } = new UnitFamily(
+            new Unit("square foot", "square feet"),
+            new Unit("square ft"),
+            new Unit("foot squared", "feet squared"),
+            new Unit("ft squared"),
+            "ft2",
+            "ft^2",
+
+            new Unit("square mile", "square miles", 27_878_400),
+            new Unit("square mi", 27_878_400),
+            new Unit("mile squared", "miles squared", 27_878_400),
+            new Unit("mi squared", 27_878_400),
+            new Unit("mi2", 27_878_400),
+            new Unit("mi^2", 27_878_400)
+        );
 
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
@@ -191,7 +227,9 @@ namespace Conversion.Model
             Stones,
             Celcius,
             Fahrenheit,
-            Kelvin
+            Kelvin,
+            MetricArea,
+            ImperialArea
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);

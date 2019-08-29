@@ -35,12 +35,12 @@ namespace Tests.Conversion.Converters
                     new Measurement(UnitFamily.Liters.GetUnit("liter"), 22.7304594),
                     new Measurement(UnitFamily.USVolumes.GetUnit("us gallon"), 6.004752113)
                 }),
-
                 (new DetectedMeasurement(UnitFamily.Stones.GetUnit("stone"), 5), new[]
                 {
                     new Measurement(UnitFamily.Kilograms.GetUnit("kilogram"), 31.7514659),
                     new Measurement(UnitFamily.Pounds.GetUnit("pound"), 70)
-                })
+                }),
+                (new DetectedMeasurement(UnitFamily.ImperialArea.GetUnit("square foot"), 5), new[]{new Measurement(UnitFamily.MetricArea.GetUnit("square metre"), 0.4645152007) })
             };
             
             foreach (var (input, expectedResults) in measurements)

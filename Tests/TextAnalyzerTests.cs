@@ -124,6 +124,10 @@ namespace Tests.Conversion
         [DataRow("10 in", null, false)]
         [DataRow("10ins", null, false)]
 
+        //some well chosen units
+        [DataRow("This forest is 10 square miles", "10 square miles ≈ 26 square kilometres", false)]
+        [DataRow("My apartment is about 92 m^2", "92 m^2 ≈ 990 square feet", false)]
+
         //line breaks
         [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
         [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]

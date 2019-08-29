@@ -50,7 +50,7 @@ namespace Conversion.Scanners
 
         private string Escape(string unit)
         {
-            return unit.Replace("*", "\\*");
+            return unit.Replace("*", "\\*").Replace("^", "\\^");
         }
 
         private DetectedMeasurement CreateMeasurement(Match regex, Unit u)
