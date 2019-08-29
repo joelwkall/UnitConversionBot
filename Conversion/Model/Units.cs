@@ -40,7 +40,7 @@ namespace Conversion.Model
 
             new Unit("kilometre", "kilometres", 1000),
             new Unit("kilometer", "kilometers", 1000),
-            new Unit("km", 1000), //TODO: detect "kms" but dont format numbers that way
+            new Unit("km", 1000),
 
             new Unit("centimetre", "centimetres", 0.01),
             new Unit("centimeter", "centimeters", 0.01),
@@ -104,7 +104,7 @@ namespace Conversion.Model
 
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
-            "kg", //TODO: detect "kgs" but dont format numbers that way
+            "kg",
 
             new Unit("gram", "grams", 0.001),
             new Unit("g", 0.001),
