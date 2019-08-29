@@ -20,6 +20,7 @@ namespace Conversion.Converters
             (UnitFamily.ImperialVolumes, 4.54609188, UnitFamily.Liters, true),
             (UnitFamily.USVolumes, 0.83267384, UnitFamily.ImperialVolumes, true),
             (UnitFamily.MetricArea, 10.7639104, UnitFamily.ImperialArea, true),
+            (UnitFamily.Yards, 0.9144, UnitFamily.Meters, false),
         };
 
         public override void Convert(ConversionCollection collection)

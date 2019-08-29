@@ -65,7 +65,10 @@ namespace Conversion.Model
             new Unit("thou", "thous", 1.0 / 12000)
         );
 
-        //TODO: add yards but never convert TO them (or maybe?)
+        public static UnitFamily Yards { get; private set; } = new UnitFamily(
+            new Unit("yard", "yards"),
+            "yd"
+        );
 
         public static UnitFamily MetricArea { get; private set; } = new UnitFamily(
             new Unit("square metre", "square metres"),
@@ -236,7 +239,8 @@ namespace Conversion.Model
             Kelvin,
             MetricArea,
             ImperialArea,
-            Knots
+            Knots,
+            Yards
         };
 
         public static IEnumerable<Unit> AllUnits => AllFamilies.SelectMany(u => u.Units);
