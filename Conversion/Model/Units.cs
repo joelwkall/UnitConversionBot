@@ -307,7 +307,7 @@ namespace Conversion.Model
                 strAmount = roundedAmount.ToString("#.############################", CultureInfo.InvariantCulture);
             }
 
-            return strAmount + " " + (Amount == 1 ? Unit.Singular : Unit.Plural);
+            return strAmount + " " + (strAmount == "1" ? Unit.Singular : Unit.Plural);
         }
 
         public double BaseAmount => Amount * Unit.Ratio;

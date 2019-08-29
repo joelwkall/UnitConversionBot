@@ -28,7 +28,7 @@ namespace Conversion.Scanners
 
                 //"in" is also a word so we require it to be without space
                 if (u.Singular != "in")
-                    pattern = "\\s?" + pattern;
+                    pattern = "\\s?" + pattern; //TODO: make sure line breaks are not allowed between
 
                 pattern += Escape(u.Singular) + "|" + Escape(u.Plural) + ")";
 

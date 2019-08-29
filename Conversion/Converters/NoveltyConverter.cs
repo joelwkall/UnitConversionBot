@@ -67,11 +67,18 @@ namespace Conversion.Converters
                     var amount = m.Amount * m.Unit.Ratio / (m.Unit.UnitFamily == UnitFamily.Meters ? 0.6 : 80.0);
 
                     //dont convert every time
-                    if (amount > 1 && amount < 100 && _random.NextDouble() < (_randomThreshHold * 4))
+                    if (amount > 1 && amount < 100 && _random.NextDouble() < (_randomThreshHold * 2))
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("washing machine", "washing machines"),
                             amount
                         ));
+                }
+                else if ((m.Unit == UnitFamily.ImperialDistances.GetUnit("mile") || m.Unit == UnitFamily.ImperialDistances.GetUnit("mi")) && Math.Round(m.Amount) % 500 == 0)
+                {
+                    collection.ConvertedMeasurements.Add(new Measurement(
+                        new Unit("proclaimer walk", "proclaimer walks"),
+                        m.Amount/500.0
+                    ));
                 }
             }
         }

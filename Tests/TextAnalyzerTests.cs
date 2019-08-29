@@ -146,6 +146,8 @@ namespace Tests.Conversion
         [DataRow("This thing weighs 300 pounds", "300 pounds ≈ 140 kilograms or 21 stone or 1.7 washing machines", true)]
         [DataRow("This thing weighs 140 kilograms", "140 kilograms ≈ 309 pounds or 22 stone or 1.75 washing machines", true)] //both ways
         [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 60 centimeters or 2 feet", true)]
+        [DataRow("I would walk 1500 miles for this", "1500 miles ≈ 2410 kilometres or 3 proclaimer walks", true)]
+        [DataRow("The road was 805 km long", "805 km ≈ 500.2 miles or 1 proclaimer walk", true)]
 
         //converter interactions
         [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet", false)]
