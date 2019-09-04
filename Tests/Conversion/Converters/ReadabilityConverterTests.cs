@@ -27,11 +27,11 @@ namespace Tests.Conversion.Converters
             {
                 var collection = new ConversionCollection(null, new List<Measurement>(){input});
                 new ReadabilityConverter().Convert(collection);
-                var results = collection.ConvertedMeasurements.Select(m => m.ToString(10)).ToList();
+                var results = collection.ConvertedMeasurements.Select(m => m.ToString()).ToList();
 
                 if (expectedResult != null)
                 {
-                    Assert.IsTrue(results.Contains(expectedResult.ToString(10)), $"Results did not contain {expectedResult}. Results were: [{string.Join(',', results)}]");
+                    Assert.IsTrue(results.Contains(expectedResult.ToString()), $"Results did not contain {expectedResult}. Results were: [{string.Join(',', results)}]");
                 }
                 else
                 {

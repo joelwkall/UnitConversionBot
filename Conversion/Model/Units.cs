@@ -343,28 +343,11 @@ namespace Conversion.Model
             Amount = -Amount;
         }
 
-        public string ToString(int significantDigits)
-        {
-            string strAmount;
-            if (double.IsPositiveInfinity(Amount))
-            {
-                strAmount = "Infinity";
-            }
-            else
-            {
-                var roundedAmount = Utils.RoundToSignificantDigits(Amount, significantDigits);
-
-                strAmount = roundedAmount.ToString("#.############################", CultureInfo.InvariantCulture);
-            }
-
-            return strAmount + " " + (strAmount == "1" ? Unit.Singular : Unit.Plural);
-        }
-
         public double BaseAmount => Amount * Unit.Ratio;
 
         public override string ToString()
         {
-            return ToString(10);
+            return Amount.ToString("#.##########", CultureInfo.InvariantCulture);
         }
 
         public override bool Equals(object obj)

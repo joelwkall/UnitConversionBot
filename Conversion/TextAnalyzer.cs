@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Conversion.Converters;
 using Conversion.Filters;
+using Conversion.Formatters;
 using Conversion.Model;
 using Conversion.Scanners;
 
@@ -49,19 +51,26 @@ namespace Conversion
                 new BaseFilter[]
                 {
                     new DuplicatesFilter(),
+                },
+                new BaseFormatter[]
+                {
+                    new DefaultFormatter(), 
                 }
             );
         }
 
+        //TODO: these could all be interfaces instead
         public IEnumerable<BaseScanner> Scanners { get; private set; }
         public IEnumerable<BaseConverter> Converters { get; private set; }
         public IEnumerable<BaseFilter> Filters { get; private set; }
+        public IEnumerable<BaseFormatter> Formatters { get; private set; }
 
-    public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters, IEnumerable<BaseFilter> filters)
+        public TextAnalyzer(IEnumerable<BaseScanner> scanners, IEnumerable<BaseConverter> converters, IEnumerable<BaseFilter> filters, IEnumerable<BaseFormatter> formatters)
         {
             Scanners = scanners;
             Converters = converters;
             Filters = filters;
+            Formatters = formatters;
         }
 
         public IEnumerable<string> FindConversions(params string[] strs)
@@ -116,13 +125,23 @@ namespace Conversion
             }
         
             //create output
-            //TODO: here we can have a cascading list of formatters,
-            //if we want to format some measurements in a special way
             foreach (var collection in foundMeasurements)
             {
-                //format the output with 1 more significant digit to balance accuracy and readability
-                yield return collection.DetectedMeasurement.DetectedString + " ≈ " + string.Join(" or ", collection.ConvertedMeasurements.Select(v=>v.ToString(collection.DetectedMeasurement.SignificantDigits + 1)));
+                yield return collection.DetectedMeasurement.DetectedString + " ≈ " + 
+                             string.Join(" or ", collection.ConvertedMeasurements.Select(v=>Format(v, collection.DetectedMeasurement.SignificantDigits)));
             }
+        }
+
+        private string Format(Measurement m, int significantDigits)
+        {
+            foreach (var formatter in Formatters)
+            {
+                //format the output with 1 more significant digit to balance accuracy and readability
+                if (formatter.CanFormat(m))
+                    return formatter.FormatMeasurement(m, significantDigits + 1);
+            }
+
+            return m.ToString();
         }
     }
 }

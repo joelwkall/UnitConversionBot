@@ -23,7 +23,7 @@ namespace Tests.Conversion.Converters
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("cm"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.328083989501312)}),
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("millimetres"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 0.0328083989501312)}),
                 (new DetectedMeasurement(UnitFamily.Meters.GetUnit("kilometers"), 10), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 32808.3989501312)}),
-                (new DetectedMeasurement(UnitFamily.Meters.GetUnit("lightyear"), 5), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 155192395000000000) }),
+                (new DetectedMeasurement(UnitFamily.Meters.GetUnit("lightyear"), 5), new[]{new Measurement(UnitFamily.ImperialDistances.GetUnit("foot"), 155192395013123000) }),
 
                 (new DetectedMeasurement(UnitFamily.USVolumes.GetUnit("gallon"), 5), new[]
                 {
@@ -33,7 +33,7 @@ namespace Tests.Conversion.Converters
                 (new DetectedMeasurement(UnitFamily.ImperialVolumes.GetUnit("imperial gallon"), 5), new[]
                 {
                     new Measurement(UnitFamily.Liters.GetUnit("liter"), 22.7304594),
-                    new Measurement(UnitFamily.USVolumes.GetUnit("us gallon"), 6.004752113)
+                    new Measurement(UnitFamily.USVolumes.GetUnit("us gallon"), 6.0047521128)
                 }),
                 (new DetectedMeasurement(UnitFamily.Stones.GetUnit("stone"), 5), new[]
                 {
@@ -47,11 +47,11 @@ namespace Tests.Conversion.Converters
             {
                 var collection = new ConversionCollection(input);
                 new ImperialMetricConverter().Convert(collection);
-                var results = collection.ConvertedMeasurements.Select(m => m.ToString(10)).ToList();
+                var results = collection.ConvertedMeasurements.Select(m => m.ToString()).ToList();
 
-                Assert.AreEqual(expectedResults.Length, results.Count(), $"Expected results [{string.Join(',', expectedResults.Select(m => m.ToString(10)))}], but got [{string.Join(',', results)}]");
+                Assert.AreEqual(expectedResults.Length, results.Count(), $"Expected results [{string.Join(',', expectedResults.Select(m => m.ToString()))}], but got [{string.Join(',', results)}]");
 
-                foreach (var expectedResult in expectedResults.Select(m => m.ToString(10)))
+                foreach (var expectedResult in expectedResults.Select(m => m.ToString()))
                 {
                     Assert.IsTrue(results.Contains(expectedResult), $"Results did not contain {expectedResult}. Results were: [{string.Join(',', results)}]");
                 }
