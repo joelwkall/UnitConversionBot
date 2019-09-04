@@ -15,19 +15,9 @@ namespace Conversion.Formatters
 
         public override string FormatMeasurement(Measurement m, int significantDigits)
         {
-            string strAmount;
-            if (double.IsPositiveInfinity(m.Amount))
-            {
-                strAmount = "Infinity";
-            }
-            else
-            {
-                var roundedAmount = Utils.RoundToSignificantDigits(m.Amount, significantDigits);
+            var roundedAmount = Utils.RoundToSignificantDigits(m.Amount, significantDigits);
 
-                strAmount = roundedAmount.ToString("#.############################", CultureInfo.InvariantCulture);
-            }
-
-            return strAmount + " " + (strAmount == "1" ? m.Unit.Singular : m.Unit.Plural);
+            return FormatAmount(roundedAmount, m.Unit);
         }
     }
 }

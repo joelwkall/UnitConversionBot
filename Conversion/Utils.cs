@@ -35,8 +35,16 @@ namespace Conversion
             return significant;
         }
 
+        public static int CountDigits(int d)
+        {
+            return (int)Math.Floor(Math.Log10(Math.Abs(d)) + 1);
+        }
+
         public static double RoundToSignificantDigits(double d, int digits)
         {
+            if (double.IsInfinity(d))
+                return d;
+
             if (d == 0)
                 return 0;
 

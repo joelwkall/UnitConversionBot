@@ -54,6 +54,8 @@ namespace Conversion
                 },
                 new BaseFormatter[]
                 {
+                    new InchesFormatter(), 
+                    new FootFormatter(new InchesFormatter()),
                     new DefaultFormatter(), 
                 }
             );
