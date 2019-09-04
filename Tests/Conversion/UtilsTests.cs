@@ -60,6 +60,7 @@ namespace Tests.Conversion
                 (0.000766001, 4),
                 (0.0, 1),
                 (1.0, 0),
+                (-0.0091, 3)
             };
 
             foreach (var (d, expected) in cases)

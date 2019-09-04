@@ -63,7 +63,7 @@ namespace Conversion
                 {
                     if (c == '0')
                         num++;
-                    else if(c != '.')
+                    else if(c != '.' && c != '-')
                         break;
                 }
 

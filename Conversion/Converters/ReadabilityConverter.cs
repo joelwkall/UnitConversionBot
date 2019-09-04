@@ -1,4 +1,5 @@
-﻿using Conversion.Model;
+﻿using System;
+using Conversion.Model;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Conversion.Converters
                     var numberOfZeroesConverted = Utils.CountLeadingTrailingZeroes(convertedAmount);
 
                     if (numberOfZeroesConverted < preferred.numberOfZeroes ||
-                        numberOfZeroesConverted == preferred.numberOfZeroes && convertedAmount < preferred.amount)
+                        numberOfZeroesConverted == preferred.numberOfZeroes && Math.Abs(convertedAmount) < Math.Abs(preferred.amount))
                         preferred = (u, convertedAmount, numberOfZeroesConverted);
                 }
 

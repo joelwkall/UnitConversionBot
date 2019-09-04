@@ -68,6 +68,7 @@ namespace Conversion.Scanners
 
                     //find out if there is a minus sign before the detected string
                     //but only if preceeded by a space
+                    //TODO: this doesnt work if there is a space between the sign and the number
                     var index = str.IndexOf(created.DetectedString);
                     var preceededByMinus = index > 0 && str[index - 1] == '-';
                     var spaceBeforeMinus = index == 1 || (index > 2 && str[index - 2] == ' ');

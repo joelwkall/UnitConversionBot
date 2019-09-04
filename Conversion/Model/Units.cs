@@ -105,6 +105,7 @@ namespace Conversion.Model
         public static UnitFamily Kilograms { get; private set; } = new UnitFamily(
             new Unit("kilogram", "kilograms"),
             "kg",
+            new Unit("kilo", "kilos"),
 
             new Unit("gram", "grams", 0.001),
             new Unit("g", 0.001),
