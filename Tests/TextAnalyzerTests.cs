@@ -76,6 +76,7 @@ namespace Tests.Conversion
         [DataRow("5 foot wingspan through an 8 inch gap.", 2)]
         [DataRow("The smallest subspecies of the reindeer. Males average 90 kg in weight, females 70 kg", 2)]
         [DataRow("It also works with volumes such as 3 gallons, 5 liters, and 5 fl oz.", 3)]
+        [DataRow("Never thought I’d be a fan of hybrids, but I have to admit that going from “5 miles until empty” to 510 miles for $28.50 is pretty awesome.", 2)]
         [DataRow("usually 15'-16' average", 2)]
         [DataRow("And a 10 km Run (6.2 miles).", 0)] //duplicate measurement
         [DataRow("And a 10 km Run (not at all 5.2 miles).", 2)] //outside duplicate threshhold

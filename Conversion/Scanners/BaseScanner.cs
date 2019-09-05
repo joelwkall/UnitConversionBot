@@ -16,7 +16,7 @@ namespace Conversion.Scanners
         public static string NumberRegex = "((?:(?:\\.|,)?\\d+(?:[\\.,\\s]\\d+)*(?:(?:\\.|,)\\d+)?))";
 
         //Omitting front slash from here because we dont want it to catch fractions
-        public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤&()=?`@{}+´¨~*'\"]";
+        public static string WordSeparatorRegex = "[<>.,;:\\-_!#¤&()=?`@{}+´¨~*'\"“”]";
 
         public static bool Parse(string str, out double amount)
         {

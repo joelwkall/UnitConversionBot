@@ -8,7 +8,7 @@ namespace Conversion.Scanners
 {
     public class FeetAndInchesScanner : BaseScanner
     {
-        //TODO: support double apostrophe as well as quote
+        //TODO: accept double apostrophe, and “” style quotes.
         private static string _pattern = $"{NumberRegex}'\\s?{NumberRegex}\"";
 
         public override (string remaining, IEnumerable<DetectedMeasurement> foundMeasurements) FindMeasurements(
