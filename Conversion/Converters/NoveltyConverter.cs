@@ -40,8 +40,7 @@ namespace Conversion.Converters
                 }
                 else if (m.Unit.Singular == "doggo" || m.Unit.Singular == "puppy" || m.Unit.Singular == "pupper")
                 {
-                    //dont convert every time
-                    if (_random.NextDouble() < _randomThreshHold)
+                    if (SillyTime())
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("goodness", "goodness"),
                             double.PositiveInfinity
@@ -49,8 +48,7 @@ namespace Conversion.Converters
                 }
                 else if (m.Unit.Singular == "washing machine")
                 {
-                    //dont convert every time
-                    if (_random.NextDouble() < _randomThreshHold * 4)
+                    if (SillyTime(2))
                     {
                         collection.ConvertedMeasurements.Add(new Measurement(
                             UnitFamily.Meters.GetUnit("centimeter"),
@@ -66,14 +64,13 @@ namespace Conversion.Converters
                 {
                     var amount = m.Amount * m.Unit.Ratio / (m.Unit.UnitFamily == UnitFamily.Meters ? 0.6 : 80.0);
 
-                    //dont convert every time
-                    if (amount > 1 && amount < 100 && _random.NextDouble() < (_randomThreshHold * 2))
+                    if (amount > 1 && amount < 100 && SillyTime(2))
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("washing machine", "washing machines"),
                             amount
                         ));
                 }
-                else if ((m.Unit == UnitFamily.ImperialDistances.GetUnit("mile") || m.Unit == UnitFamily.ImperialDistances.GetUnit("mi")) && Math.Round(m.Amount) % 500 == 0)
+                else if (ProclaimerMultiple(m) && SillyTime(3))
                 {
                     collection.ConvertedMeasurements.Add(new Measurement(
                         new Unit("proclaimer walk", "proclaimer walks"),
@@ -81,6 +78,21 @@ namespace Conversion.Converters
                     ));
                 }
             }
+        }
+
+        private bool SillyTime(int silliness = 1)
+        {
+            return _random.NextDouble() < (_randomThreshHold * silliness);
+        }
+
+        private static bool ProclaimerMultiple(Measurement m)
+        {
+            //only operate on miles
+            if(m.Unit != UnitFamily.ImperialDistances.GetUnit("mile") && m.Unit != UnitFamily.ImperialDistances.GetUnit("mi"))
+                return false;
+                    
+            //if its a multiple of 500 and not too large
+            return Math.Round(m.Amount) % 500 == 0 && m.Amount < 10000;
         }
     }
 }
