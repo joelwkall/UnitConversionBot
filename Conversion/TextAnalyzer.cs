@@ -31,6 +31,14 @@ namespace Conversion
     {
         public static TextAnalyzer Default { get; private set; } = CreateNewDefault();
 
+        public static BaseFormatter InchFormatter = new RecursiveFormatter(m =>
+            m.Unit.UnitFamily == UnitFamily.ImperialDistances && m.Unit.Ratio == 1.0 / 12);
+
+        public static BaseFormatter FootFormatter = new RecursiveFormatter(
+            InchFormatter,
+            m => m.Unit.UnitFamily == UnitFamily.ImperialDistances && m.Unit.Ratio == 1,
+        UnitFamily.ImperialDistances.GetUnit("inch"));
+
         public static TextAnalyzer CreateNewDefault()
         {
             return new TextAnalyzer(
@@ -54,8 +62,8 @@ namespace Conversion
                 },
                 new BaseFormatter[]
                 {
-                    new InchesFormatter(), 
-                    new FootFormatter(new InchesFormatter()),
+                    InchFormatter, 
+                    FootFormatter, 
                     new DefaultFormatter(), 
                 }
             );

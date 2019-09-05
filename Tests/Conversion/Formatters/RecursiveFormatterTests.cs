@@ -1,14 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Conversion.Formatters;
 using Conversion.Model;
+using Conversion;
 
 namespace Tests.Conversion.Formatters
 {
     [TestClass]
-    public class FootFormatterTests
+    public class RecursiveFormatterTests
     {
         [TestMethod]
         [DataRow(7.0, 15, "7 feet")]
@@ -24,7 +26,7 @@ namespace Tests.Conversion.Formatters
         [DataRow(757.9501, 5, "757 feet, 11 inches")]
         public void Feet(double amount, int digits, string expected)
         {
-            var formatter = new FootFormatter(new InchesFormatter());
+            var formatter = TextAnalyzer.FootFormatter;
             var formatted =
                 formatter.FormatMeasurement(new Measurement(UnitFamily.ImperialDistances.PrimaryUnit, amount), digits);
 
