@@ -40,7 +40,8 @@ namespace Tests.Conversion.Converters
                     new Measurement(UnitFamily.Kilograms.GetUnit("kilogram"), 31.7514659),
                     new Measurement(UnitFamily.Pounds.GetUnit("pound"), 70)
                 }),
-                (new DetectedMeasurement(UnitFamily.ImperialArea.GetUnit("square foot"), 5), new[]{new Measurement(UnitFamily.MetricArea.GetUnit("square metre"), 0.4645152007) })
+                (new DetectedMeasurement(UnitFamily.ImperialArea.GetUnit("square foot"), 5), new[]{new Measurement(UnitFamily.MetricArea.GetUnit("square metre"), 0.4645152007) }),
+                (new DetectedMeasurement(UnitFamily.ImperialArea.GetUnit("square mile"), 4.050), new[]{new Measurement(UnitFamily.MetricArea.GetUnit("square metre"), 10489451.8631445) })
             };
             
             foreach (var (input, expectedResults) in measurements)
