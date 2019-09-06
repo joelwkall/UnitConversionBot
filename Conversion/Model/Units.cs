@@ -10,6 +10,7 @@ namespace Conversion.Model
         public static UnitFamily Mph { get; private set; } = new UnitFamily(
             new Unit("mile per hour", "miles per hour"),
             "mph");
+        //TODO: add mile per second
 
         public static UnitFamily Kmph { get; private set; } = new UnitFamily(
             new Unit("kilometre per hour", "kilometres per hour"),
@@ -29,6 +30,8 @@ namespace Conversion.Model
         public static UnitFamily Knots { get; private set; } = new UnitFamily(
             new Unit("knot", "knots")
             );
+
+        //TODO: add mach
 
         public static UnitFamily Meters { get; private set; } = new UnitFamily(
             new Unit("metre", "metres"),

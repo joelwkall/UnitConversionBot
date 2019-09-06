@@ -39,6 +39,14 @@ namespace Conversion
             m => m.Unit.UnitFamily == UnitFamily.ImperialDistances && m.Unit.Ratio == 1,
         UnitFamily.ImperialDistances.GetUnit("inch"));
 
+        public static BaseFormatter OunceFormatter = new RecursiveFormatter(m =>
+            m.Unit.UnitFamily == UnitFamily.Pounds && m.Unit.Ratio == 1.0 / 16);
+
+        public static BaseFormatter PoundFormatter = new RecursiveFormatter(
+            InchFormatter,
+            m => m.Unit.UnitFamily == UnitFamily.Pounds && m.Unit.Ratio == 1,
+            UnitFamily.Pounds.GetUnit("ounce"));
+
         public static TextAnalyzer CreateNewDefault()
         {
             return new TextAnalyzer(
@@ -64,6 +72,8 @@ namespace Conversion
                 {
                     InchFormatter, 
                     FootFormatter, 
+                    OunceFormatter,
+                    PoundFormatter,
                     new DefaultFormatter(), 
                 }
             );

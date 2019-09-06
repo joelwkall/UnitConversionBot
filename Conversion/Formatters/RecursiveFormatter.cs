@@ -33,16 +33,21 @@ namespace Conversion.Formatters
             var rounded = Utils.RoundToSignificantDigits(m.Amount, significantDigits);
 
             var integerPart = (int)Math.Truncate(rounded);
+
+            //if it was rounded up, there is no fractions or child unit to add
+            if (Math.Abs(integerPart) > Math.Abs(m.Amount))
+                return FormatAmount(integerPart, m.Unit);
+
             var integerPartDigits = Utils.CountDigits(integerPart);
 
             //did we deplete the specified significant digits?
             if (integerPartDigits >= significantDigits)
-                return FormatAmount(integerPart, m.Unit);
+                return FormatAmount(rounded, m.Unit);
 
-            //calculate inches part
-            var decimalPart = Math.Abs(rounded) - Math.Abs(integerPart);
+            //calculate child part
+            var decimalPart = Math.Abs(m.Amount) - Math.Abs(integerPart);
 
-            if (decimalPart == 0)
+            if (decimalPart <= 0)
                 return FormatAmount(integerPart, m.Unit);
 
             var remainingDigits = Math.Max(0, significantDigits - integerPartDigits);
@@ -52,27 +57,29 @@ namespace Conversion.Formatters
             {
                 var childAmount = decimalPart / _childUnit.Ratio;
 
-                //avoid rounding up to the same
-                if (Utils.RoundToSignificantDigits(childAmount, remainingDigits) == 1 / _childUnit.Ratio)
+                var childFormatted = _childFormatter.FormatMeasurement(
+                    new Measurement(_childUnit, childAmount),
+                    remainingDigits);
+
+                //avoid rounding up to a "full" child
+                if (childFormatted.StartsWith((1 / _childUnit.Ratio).ToString()))
                     return FormatAmount(integerPart + 1, m.Unit);
 
                 //use child formatter for remaining decimals
-                return FormatAmount(integerPart, m.Unit) + ", " + _childFormatter.FormatMeasurement(
-                           new Measurement(_childUnit, childAmount),
-                           remainingDigits);
+                return FormatAmount(integerPart, m.Unit) + ", " + childFormatted;
             }
 
             //if there is no child, display using fractions
             //TODO: support 1/16, 1/32 etc if there are enough decimals and remaining significant digits
+            //for now, just round it to nearest integer
             var denominator = 8;
-
-            var fractions = decimalPart * denominator;
+            var fractions = Math.Round(decimalPart * denominator);
 
             //avoid rounding up to 1/1
-            if (Utils.RoundToSignificantDigits(fractions, remainingDigits) == denominator)
+            if (fractions == denominator)
                 return FormatAmount(integerPart + 1, m.Unit);
 
-            return integerPart + " " + Utils.RoundToSignificantDigits(fractions, remainingDigits) + "/" + denominator + " " + m.Unit.Plural;
+            return integerPart + " " + fractions + "/" + denominator + " " + m.Unit.Plural;
         }
     }
 }
