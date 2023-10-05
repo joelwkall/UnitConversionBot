@@ -52,6 +52,11 @@ namespace Tests.Conversion.Scanners
                     (4, "l", 1),
                     (60.0, "g", 1)
                 }),
+                ("Our 25.4lbs/11.5kg recent rescue Oliver.", new[]
+                {
+                    (25.4, "lbs", 3),
+                    (11.5, "kg", 3)
+                })
             };
 
             ScannerUtils.Test(new SingleRegexScanner(), strs, (expected, actual) =>

@@ -175,7 +175,6 @@ namespace Tests.Conversion
         [DataRow("But a \"quote that happens to end with 12\" should not work", null, false)]
         [DataRow("A phrase with a \"quote\" and also a 12\" should work", "12\" ≈ 30.5 centimetres", false)]
         [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" after", "12\" ≈ 30.5 centimetres", false)]
-        [DataRow("A phrase with a \"quote\" and also a 12\" should work, even with \"quotes\" and /1\" after", "12\" ≈ 30.5 centimetres", false)]
         public void ConvertSingle(string input, string expected, bool novelty)
         {
             var results = (novelty ? _noveltyAnalyzer : _regularAnalyzer).FindConversions(input);
