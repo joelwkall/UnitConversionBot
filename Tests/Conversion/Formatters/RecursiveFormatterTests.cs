@@ -40,7 +40,6 @@ namespace Tests.Conversion.Formatters
         }
 
         [TestMethod]
-
         [DataRow(7.0, 15, "7 pounds")]
         [DataRow(7.5, 2, "7 pounds, 8 ounces")]
         [DataRow(7.5, 1, "8 pounds")]
@@ -62,6 +61,33 @@ namespace Tests.Conversion.Formatters
 
             var negativeFormatted =
                 formatter.FormatMeasurement(new Measurement(UnitFamily.Pounds.PrimaryUnit, -amount), digits);
+
+            Assert.AreEqual("-" + expected, negativeFormatted, "Negative formatting failed.");
+        }
+
+        [TestMethod]
+        [DataRow(7.0, 15, "7 stone")]
+        [DataRow(7.5, 2, "7 stone, 7 pounds")]
+        [DataRow(7.5, 1, "8 stone")]
+        [DataRow(7.67, 1, "8 stone")]
+        [DataRow(757.67, 3, "758 stone")]
+        [DataRow(757.67, 4, "757 stone, 9 pounds")]
+        [DataRow(757.91, 5, "757 stone, 13 pounds")]
+        [DataRow(757.98, 4, "758 stone")] //make sure we dont get 758 stone, 14 pounds
+        [DataRow(757.98, 6, "757 stone, 13 pounds, 10 ounces")] //TODO: should be 12 ounces but we ran out of sigdigs
+        [DataRow(757.98, 7, "757 stone, 13 pounds, 12 ounces")]
+        [DataRow(757.995, 8, "757 stone, 13 pounds, 14 7/8 ounces")]
+        [DataRow(757.9501, 5, "757 stone, 13 pounds")]
+        public void Stones(double amount, int digits, string expected)
+        {
+            var formatter = TextAnalyzer.StonesFormatter;
+            var formatted =
+                formatter.FormatMeasurement(new Measurement(UnitFamily.Stones.PrimaryUnit, amount), digits);
+
+            Assert.AreEqual(expected, formatted);
+
+            var negativeFormatted =
+                formatter.FormatMeasurement(new Measurement(UnitFamily.Stones.PrimaryUnit, -amount), digits);
 
             Assert.AreEqual("-" + expected, negativeFormatted, "Negative formatting failed.");
         }

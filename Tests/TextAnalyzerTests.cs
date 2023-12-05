@@ -37,7 +37,7 @@ namespace Tests.Conversion
             var results = _regularAnalyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms or 1.1343 stone", results.First());
+            Assert.AreEqual("15,88 lbs ≈ 7.203 kilograms or 1 stone, 1 pound, 14 1/8 ounces", results.First());
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Tests.Conversion
             var results = _regularAnalyzer.FindConversions(str);
 
             Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms or 1.1343 stone", results.First());
+            Assert.AreEqual("15.88 lbs ≈ 7.203 kilograms or 1 stone, 1 pound, 14 1/8 ounces", results.First());
         }
 
         [TestMethod]
@@ -133,12 +133,12 @@ namespace Tests.Conversion
         [DataRow("This hole is 5 yards", "5 yards ≈ 4.6 metres", false)]
 
         //line breaks
-        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
-        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
-        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
-        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
-        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
-        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32.1 stone", false)]
+        [DataRow("something \n450 lbs down", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
+        [DataRow("something \r450 lbs down", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
+        [DataRow("something <br/>450 lbs down", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
+        [DataRow("450 lbs down\n", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
+        [DataRow("450 lbs down\r", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
+        [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
 
         //special chars
         [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13.21 stone", false)]

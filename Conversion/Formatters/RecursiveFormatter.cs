@@ -10,12 +10,19 @@ namespace Conversion.Formatters
         private BaseFormatter _childFormatter;
         private Func<Measurement, bool> _canFormatFunc;
         private Unit _childUnit;
+        private double _childRatio;
 
-        public RecursiveFormatter(BaseFormatter childFormatter, Func<Measurement, bool> canFormatFunc, Unit childUnit)
+        public RecursiveFormatter(BaseFormatter childFormatter, Func<Measurement, bool> canFormatFunc, Unit childUnit, double childRatio)
         {
             _childFormatter = childFormatter;
             _canFormatFunc = canFormatFunc;
             _childUnit = childUnit;
+            _childRatio = childRatio;
+        }
+
+        public RecursiveFormatter(BaseFormatter childFormatter, Func<Measurement, bool> canFormatFunc, Unit childUnit)
+            :this(childFormatter, canFormatFunc, childUnit, childUnit.Ratio)
+        {
         }
 
         public RecursiveFormatter(Func<Measurement, bool> canFormatFunc)
@@ -39,6 +46,8 @@ namespace Conversion.Formatters
                 return FormatAmount(integerPart, m.Unit);
 
             var integerPartDigits = Utils.CountDigits(integerPart);
+            if (integerPart == 0)
+                integerPartDigits = 0;
 
             //did we deplete the specified significant digits?
             if (integerPartDigits >= significantDigits)
@@ -55,17 +64,20 @@ namespace Conversion.Formatters
             //if there is a child unit and formatter, use it
             if (_childUnit != null && _childFormatter != null)
             {
-                var childAmount = decimalPart / _childUnit.Ratio;
+                var childAmount = decimalPart / _childRatio;
 
                 var childFormatted = _childFormatter.FormatMeasurement(
                     new Measurement(_childUnit, childAmount),
                     remainingDigits);
 
                 //avoid rounding up to a "full" child
-                if (childFormatted.StartsWith((1 / _childUnit.Ratio).ToString()))
+                if (childFormatted.StartsWith((1 / _childRatio).ToString()))
                     return FormatAmount(integerPart + 1, m.Unit);
 
                 //use child formatter for remaining decimals
+                if (integerPart == 0)
+                    return childFormatted;
+
                 return FormatAmount(integerPart, m.Unit) + ", " + childFormatted;
             }
 
