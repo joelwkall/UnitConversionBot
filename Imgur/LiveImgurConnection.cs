@@ -40,6 +40,9 @@ namespace Imgur
                 
                 var json = GetJObject("https://api.imgur.com/oauth2/token", null, new FormUrlEncodedContent(values));
 
+                if (json["data"] != null && json["data"]["error"] != null)
+                    throw new Exception("Error when refreshing token: " + json["data"]["error"].ToObject<string>());
+
                 return json["access_token"].ToObject<string>();
             }
         }
