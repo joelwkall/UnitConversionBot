@@ -2,6 +2,8 @@
 using System.IO;
 using Conversion;
 using Conversion.Converters;
+using Conversion.Filters;
+using Conversion.Formatters;
 using Conversion.Scanners;
 using Core;
 using Imgur;
@@ -27,8 +29,10 @@ namespace ConsoleRunner
                 ? new LiveImgurConnection(clientId, clientSecret, refreshToken)
                 : new LurkerImgurConnection(clientId, clientSecret, refreshToken);
 
+            var textAnalyzer = TextAnalyzer.CreateNewDefault();
+
             var analyzer = new ImgurAnalyzer(
-                TextAnalyzer.Default,
+                textAnalyzer,
                 client
             );
 

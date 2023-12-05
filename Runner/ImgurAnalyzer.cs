@@ -104,7 +104,7 @@ namespace Core
 
                                 if (results.Count() > 0)
                                 {
-                                    Log("Posting comment: " + string.Join(", ", results));
+                                    Log($"Posting comment (using {_imgurConnection.GetType()}): " + string.Join(", ", results));
 
                                     PostComments(album.Id, null, results);
 

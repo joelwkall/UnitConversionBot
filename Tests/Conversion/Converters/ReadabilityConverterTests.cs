@@ -2,7 +2,6 @@
 using Conversion;
 using Conversion.Converters;
 using Conversion.Model;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 

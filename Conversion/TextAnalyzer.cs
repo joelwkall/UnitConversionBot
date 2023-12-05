@@ -29,8 +29,6 @@ namespace Conversion
 
     public class TextAnalyzer
     {
-        public static TextAnalyzer Default { get; private set; } = CreateNewDefault();
-
         public static BaseFormatter InchFormatter = new RecursiveFormatter(m =>
             m.Unit.UnitFamily == UnitFamily.ImperialDistances && m.Unit.Ratio == 1.0 / 12);
 
@@ -46,6 +44,12 @@ namespace Conversion
             InchFormatter,
             m => m.Unit.UnitFamily == UnitFamily.Pounds && m.Unit.Ratio == 1,
             UnitFamily.Pounds.GetUnit("ounce"));
+
+        public static BaseFormatter StonesFormatter = new RecursiveFormatter(
+            PoundFormatter,
+            m => m.Unit.UnitFamily == UnitFamily.Stones && m.Unit.Ratio == 1,
+            UnitFamily.Pounds.PrimaryUnit,
+            1.0/14.0);
 
         public static TextAnalyzer CreateNewDefault()
         {
@@ -70,11 +74,11 @@ namespace Conversion
                 },
                 new BaseFormatter[]
                 {
-                    InchFormatter, 
-                    FootFormatter, 
+                    InchFormatter,
+                    FootFormatter,
                     OunceFormatter,
                     PoundFormatter,
-                    new DefaultFormatter(), 
+                    new DefaultFormatter(),
                 }
             );
         }
