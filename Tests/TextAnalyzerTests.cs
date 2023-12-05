@@ -145,6 +145,7 @@ namespace Tests.Conversion
         [DataRow("God imgurs at 5gb's.", null, false)]
         [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stone or 249 grams", false)]
         [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 metres", false)]
+        [DataRow("This is a 3/8 inch screw.", null, false)]
 
         //novelty stuff
         [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches", true)]
@@ -188,7 +189,7 @@ namespace Tests.Conversion
             }
             else
             {
-                Assert.AreEqual(0, results.Count(), input + " was not supposed to match.");
+                Assert.AreEqual(0, results.Count(), input + " was not supposed to match. First match: " + results.FirstOrDefault());
             }
         }
 
