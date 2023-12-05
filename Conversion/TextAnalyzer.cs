@@ -47,7 +47,7 @@ namespace Conversion
 
         public static BaseFormatter StonesFormatter = new RecursiveFormatter(
             PoundFormatter,
-            m => m.Unit.UnitFamily == UnitFamily.Stones && m.Unit.Ratio == 1,
+            m => m.Unit.UnitFamily == UnitFamily.Stones && m.Unit.Ratio == 1 && m.Amount >= 1,
             UnitFamily.Pounds.PrimaryUnit,
             1.0/14.0);
 
@@ -78,6 +78,7 @@ namespace Conversion
                     FootFormatter,
                     OunceFormatter,
                     PoundFormatter,
+                    StonesFormatter,
                     new DefaultFormatter(),
                 }
             );

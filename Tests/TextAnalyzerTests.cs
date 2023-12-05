@@ -141,7 +141,7 @@ namespace Tests.Conversion
         [DataRow("450 lbs down<br/>", "450 lbs ≈ 204 kilograms or 32 stone, 2 pounds", false)]
 
         //special chars
-        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13.21 stone", false)]
+        [DataRow("of reaching 185 lbs, however", "185 lbs ≈ 83.91 kilograms or 13 stone, 3 pounds", false)]
         [DataRow("God imgurs at 5gb's.", null, false)]
         [DataRow("Does it handle the .55 lbs format ?", ".55 lbs ≈ .0393 stone or 249 grams", false)]
         [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 metres", false)]
@@ -152,7 +152,7 @@ namespace Tests.Conversion
         [DataRow("This hole is 20 meters across", "20 meters ≈ 66 feet or 33 washing machines", true)]
         [DataRow("This hole is 66 feet across", "66 feet ≈ 20.1 metres or 33.5 washing machines", true)] //both ways
         [DataRow("This thing weighs 300 pounds", "300 pounds ≈ 140 kilograms or 21 stone or 1.7 washing machines", true)]
-        [DataRow("This thing weighs 140 kilograms", "140 kilograms ≈ 309 pounds or 22 stone or 1.75 washing machines", true)] //both ways
+        [DataRow("This thing weighs 140 kilograms", "140 kilograms ≈ 309 pounds or 22 stone, 10 ounces or 1.75 washing machines", true)] //both ways
         [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 60 centimeters or 2 feet", true)]
         [DataRow("I would walk 1500 miles for this", "1500 miles ≈ 2410 kilometres or 3 proclaimer walks", true)]
         [DataRow("The road was 805 km long", "805 km ≈ 500.2 miles or 1 proclaimer walk", true)]
