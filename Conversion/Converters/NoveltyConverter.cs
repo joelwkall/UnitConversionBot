@@ -60,13 +60,32 @@ namespace Conversion.Converters
                         ));
                     }
                 }
-                else if (m.Unit.UnitFamily == UnitFamily.Meters || m.Unit.UnitFamily == UnitFamily.Kilograms)
+                else if (m.Unit.UnitFamily == UnitFamily.Kilograms && SillyTime(2))
                 {
-                    var amount = m.Amount * m.Unit.Ratio / (m.Unit.UnitFamily == UnitFamily.Meters ? 0.6 : 80.0);
+                    var amount = m.Amount * m.Unit.Ratio / 80.0;
 
-                    if (amount > 1 && amount < 100 && SillyTime(2))
+                    if (amount > 1 && amount < 100)
                         collection.ConvertedMeasurements.Add(new Measurement(
                             new Unit("washing machine", "washing machines"),
+                            amount
+                        ));
+                }
+                else if (m.Unit.UnitFamily == UnitFamily.Meters && SillyTime(2))
+                {
+                    var alternatives = new (double length, string name)[]
+                    {
+                        (0.6, "washing machine"),
+                        (1.5, "small boulder"),
+                        (2.5, "half giraffe")
+                    };
+
+                    var chosenAlt = alternatives[_random.Next(alternatives.Length)];
+
+                    var amount = m.Amount * m.Unit.Ratio / chosenAlt.length;
+
+                    if (amount > 1 && amount < 100)
+                        collection.ConvertedMeasurements.Add(new Measurement(
+                            new Unit(chosenAlt.name, chosenAlt.name + "s"),
                             amount
                         ));
                 }

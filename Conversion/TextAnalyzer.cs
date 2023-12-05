@@ -66,7 +66,7 @@ namespace Conversion
                     new ImperialMetricConverter(),
                     new ReadabilityConverter(),
                     new TemperatureConverter(),
-                    new NoveltyConverter(0.1),
+                    new NoveltyConverter(0.2),
                 },
                 new BaseFilter[]
                 {

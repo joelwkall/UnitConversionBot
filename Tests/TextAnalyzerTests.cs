@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Conversion;
 using Conversion.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -147,17 +148,6 @@ namespace Tests.Conversion
         [DataRow("It should handle heights like 6'10\"", "6'10\" ≈ 2.08 metres", false)]
         [DataRow("This is a 3/8 inch screw.", null, false)]
 
-        //novelty stuff
-        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches", true)]
-        [DataRow("This is a nice doggo", "1 doggo ≈ Infinity goodness", true)]
-        [DataRow("This hole is 20 meters across", "20 meters ≈ 66 feet or 33 washing machines", true)]
-        [DataRow("This hole is 66 feet across", "66 feet ≈ 20.1 metres or 33.5 washing machines", true)] //both ways
-        [DataRow("This thing weighs 300 pounds", "300 pounds ≈ 140 kilograms or 21 stone or 1.7 washing machines", true)]
-        [DataRow("This thing weighs 140 kilograms", "140 kilograms ≈ 309 pounds or 22 stone, 10 ounces or 1.75 washing machines", true)] //both ways
-        [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 60 centimeters or 2 feet", true)]
-        [DataRow("I would walk 1500 miles for this", "1500 miles ≈ 2410 kilometres or 3 proclaimer walks", true)]
-        [DataRow("The road was 805 km long", "805 km ≈ 500.2 miles or 1 proclaimer walk", true)]
-
         //converter interactions
         [DataRow("120 meters should not be converted to inches", "120 meters ≈ 394 feet", false)]
         [DataRow("Do not convert 10 kilometers to feet", "10 kilometers ≈ 6.2 miles", false)]
@@ -206,6 +196,38 @@ namespace Tests.Conversion
             var results = _regularAnalyzer.FindConversions("It varied from 12 ft. to about", "And then another text with no measurements.");
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("12 ft ≈ 3.66 metres", results.First());
+        }
+
+        [DataTestMethod]
+        [DataRow("I added a banana for scale just in case. And banana again.", "1 banana ≈ 18 centimeters or 7 inches", null, null)]
+        [DataRow("This is a nice doggo", "1 doggo ≈ Infinity goodness", null, null)]
+        [DataRow("This hole is 20 meters across", "20 meters ≈ 66 feet or 33 washing machines", "20 meters ≈ 66 feet or 13 small boulders", "20 meters ≈ 66 feet or 8 half giraffes")]
+        [DataRow("This hole is 66 feet across", "66 feet ≈ 20.1 metres or 33.5 washing machines", "66 feet ≈ 20.1 metres or 13.4 small boulders", "66 feet ≈ 20.1 metres or 8.05 half giraffes")] //both ways
+        [DataRow("This thing weighs 300 pounds", "300 pounds ≈ 140 kilograms or 21 stone or 1.7 washing machines", null, null)]
+        [DataRow("This thing weighs 140 kilograms", "140 kilograms ≈ 309 pounds or 22 stone, 10 ounces or 1.75 washing machines", null, null)] //both ways
+        [DataRow("My washing machine broke down yesterday", "1 washing machine ≈ 60 centimeters or 2 feet", null, null)]
+        [DataRow("I would walk 1500 miles for this", "1500 miles ≈ 2410 kilometres or 3 proclaimer walks", null, null)]
+        [DataRow("The road was 805 km long", "805 km ≈ 500.2 miles or 1 proclaimer walk", null, null)]
+        public void ConvertNovelty(string input, string expected1, string expected2, string expected3)
+        {
+            var expected = new[]
+            {
+                expected1,
+                expected2,
+                expected3
+            }.Where(e => e != null).ToList();
+
+
+            for (var i = 0; i < 10; i++)
+            {
+                var results = _noveltyAnalyzer.FindConversions(input).ToList();
+
+                
+                Assert.AreEqual(1, results.Count(), input + " should have given 1 match. Results were [" + string.Join(',', results) + "]");
+                
+                Assert.IsTrue(expected.Contains(results.First(), StringComparer.Ordinal), "Did not contain string. Result was " + results.First());
+                
+            }
         }
     }
 }
