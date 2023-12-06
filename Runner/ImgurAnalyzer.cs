@@ -119,7 +119,6 @@ namespace Core
                             catch (Exception ex)
                             {
                                 Log($"Exception when processing album {album.Id}: " + ex.ToString());
-                                continue;
                             }
 
                             seenAlbums.Add(album.Id);
